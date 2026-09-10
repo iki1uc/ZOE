@@ -3,1076 +3,1695 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>⚙️ ARBEIT · RESPO · INDEX · 3-9-81</title>
+<title>📖 MANGA · KOMA · iki1uc · 3-9-81 · reFINAL</title>
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  :root {
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
     --bg:#05070e; --fg:#c0d0d0;
     --cyan:#6cf; --gold:#f0d080; --purple:#b388ff;
     --green:#8cf0d0; --red:#ff6666; --orange:#ff8c00;
     --line:rgba(120,220,150,0.08);
+    --panel:rgba(6,8,16,0.6);
+    --ki:#6cf; --sho:#8cf0d0; --ten:#b388ff; --ketsu:#f0d080;
   }
-  body {
-    background: var(--bg);
-    color: var(--fg);
-    font-family: 'Consolas','Segoe UI',monospace;
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
+  html,body{height:100%;}
+  body{
+    background:var(--bg); color:var(--fg);
+    font-family:'Consolas','Segoe UI',monospace;
+    height:100vh; overflow:hidden;
+    display:flex; flex-direction:column;
+  }
+  header{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:8px 14px;
+    border-bottom:1px solid var(--line);
+    background:rgba(6,8,16,0.85);
+    backdrop-filter:blur(10px);
+    flex-wrap:wrap; gap:8px; z-index:6;
+  }
+  header h1{
+    font-size:14px; font-weight:300; letter-spacing:1.5px;
+    background:linear-gradient(135deg,#7ee0a0,#d8f0c0,#b388ff);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  header h1 small{
+    font-size:9px; color:#5a7a8a; -webkit-text-fill-color:#5a7a8a;
+    letter-spacing:1px; margin-left:6px;
+  }
+  header h1 .badge{
+    font-size:8px; letter-spacing:2px;
+    border-radius:4px; padding:1px 5px; margin-left:4px;
+  }
+  .b-manga{ color:var(--gold); -webkit-text-fill-color:var(--gold); border:1px solid rgba(240,208,128,0.35); }
+  .b-koma{ color:var(--purple); -webkit-text-fill-color:var(--purple); border:1px solid rgba(179,136,255,0.4); }
+  .status-leds{
+    display:flex; gap:10px; font-size:9px;
+    color:#6a8a7a; align-items:center; flex-wrap:wrap;
+  }
+  .led{display:inline-block;width:7px;height:7px;border-radius:50%;background:#3a3a3a;margin-right:4px;transition:.3s;}
+  .led.on{background:#8cf0d0;box-shadow:0 0 6px #8cf0d0;}
+  .led.master{background:#b388ff;box-shadow:0 0 6px #b388ff;}
+  .led.djinn{background:#b388ff;box-shadow:0 0 6px #b388ff;}
+  .led.flow{background:#6cf;box-shadow:0 0 6px #6cf;}
+  .led.ink{background:#f0d080;box-shadow:0 0 6px #f0d080;}
+  .led.pulse{animation:pulse 1.4s infinite;}
+  @keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+  #main{flex:1; display:grid; grid-template-columns:250px 1fr 300px; overflow:hidden;}
+  .col{padding:10px; overflow-y:auto; background:var(--panel);}
+  #left{border-right:1px solid var(--line);}
+  #right{border-left:1px solid var(--line);}
+
+  #mobTabs{display:none;}
+  @media (max-width:1000px){
+    #main{grid-template-columns:1fr;}
+    #main .col{display:none;}
+    #main[data-tab="left"] #left{display:block;}
+    #main[data-tab="right"] #right{display:block;}
+    #main[data-tab="orbit"] #center{display:flex;}
+    #left,#right{border:none;}
+    #mobTabs{
+      display:flex; gap:3px; padding:5px 8px;
+      background:rgba(6,8,16,0.85);
+      border-bottom:1px solid var(--line); overflow-x:auto;
+    }
+    #mobTabs button{
+      flex:1; min-width:68px;
+      background:rgba(20,20,30,0.6);
+      border:1px solid rgba(179,136,255,0.2);
+      color:var(--purple); padding:6px 4px; border-radius:6px;
+      font-family:inherit; font-size:9px; cursor:pointer; white-space:nowrap;
+    }
+    #mobTabs button.active{background:rgba(179,136,255,0.2);color:#fff;border-color:var(--purple);}
   }
 
-  /* ── HEADER ─────────────────────────────────────── */
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 16px;
-    border-bottom: 1px solid var(--line);
-    background: rgba(6,8,16,0.85);
-    backdrop-filter: blur(10px);
-    flex-wrap: wrap;
-    gap: 10px;
+  .panel-title{
+    font-size:9px; color:var(--gold); letter-spacing:1.5px;
+    border-bottom:1px solid rgba(255,215,0,0.08);
+    padding-bottom:4px; margin-bottom:6px;
+    display:flex; justify-content:space-between; align-items:center;
   }
-  header h1 {
-    font-size: 16px;
-    font-weight: 300;
-    letter-spacing: 2px;
-    background: linear-gradient(135deg,#7ee0a0,#d8f0c0,#b388ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  header h1 small {
-    font-size: 10px;
-    color: #5a7a8a;
-    -webkit-text-fill-color: #5a7a8a;
-    letter-spacing: 1px;
-    margin-left: 8px;
-  }
-  .status-leds {
-    display: flex;
-    gap: 14px;
-    font-size: 10px;
-    color: #6a8a7a;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .led {
-    display: inline-block;
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: #3a3a3a;
-    margin-right: 5px;
-    transition: 0.3s;
-  }
-  .led.on { background: #8cf0d0; box-shadow: 0 0 6px #8cf0d0; }
-  .led.master { background: #b388ff; box-shadow: 0 0 6px #b388ff; }
-  .led.warn { background: #f0d080; box-shadow: 0 0 6px #f0d080; }
-  .led.pulse { animation: pulse 1.4s infinite; }
-  @keyframes pulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+  .panel-title .badge{font-size:8px; color:#5a7a8a; font-weight:400;}
+  .panel-title.purple{color:var(--purple);border-bottom-color:rgba(179,136,255,0.15);}
+  .panel-title.green{color:var(--green);border-bottom-color:rgba(120,220,150,0.15);}
+  .panel-title.cyan{color:var(--cyan);border-bottom-color:rgba(108,204,255,0.15);}
 
-  /* ── MAIN GRID ──────────────────────────────────── */
-  #main {
-    flex: 1;
-    display: grid;
-    grid-template-columns: 240px 1fr 260px;
-    overflow: hidden;
-    gap: 0;
+  /* KOMA list */
+  .koma-item{
+    display:flex; align-items:center; gap:6px;
+    padding:4px 6px; border-radius:5px;
+    font-size:9.5px; color:#8aa8a0; cursor:pointer;
+    border-left:3px solid transparent;
+    transition:.15s; margin-bottom:2px;
   }
-  @media (max-width: 900px) {
-    #main { grid-template-columns: 1fr; }
-    .col { display: none; }
-    #center { display: block !important; }
+  .koma-item:hover{background:rgba(120,220,150,0.04);color:#d0e8e0;}
+  .koma-item.active{background:rgba(240,208,128,0.06);border-left-color:var(--gold);color:#fff;}
+  .koma-item.done{background:rgba(120,220,150,0.06);border-left-color:var(--green);color:#8cf0d0;opacity:.75;}
+  .koma-item .glyph{
+    font-size:15px; width:20px; text-align:center; font-weight:bold;
   }
+  .koma-item .kn{flex:1;}
+  .koma-item .ki-val{font-size:8px;color:#5a7a8a;}
 
-  .col {
-    padding: 12px;
-    overflow-y: auto;
-    background: rgba(6,8,16,0.6);
+  /* Tool item (atom-parts rebranded) */
+  .tool-item{
+    display:flex; align-items:center; gap:6px;
+    padding:3px 5px; border-radius:5px;
+    font-size:9.5px; color:#8aa8a0; cursor:pointer;
+    border-left:2px solid transparent; transition:.15s; margin-bottom:1px;
   }
-  #left { border-right: 1px solid var(--line); }
-  #right { border-left: 1px solid var(--line); }
+  .tool-item:hover{background:rgba(179,136,255,0.05);color:#d0e8e0;}
+  .tool-item.active{border-left-color:var(--purple);background:rgba(179,136,255,0.06);color:#d0e8e0;}
+  .tool-item .td{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+  .tool-item .tn{flex:1;}
+  .tool-item .tm{font-size:8px;color:#4a5a5a;}
 
-  .panel-title {
-    font-size: 10px;
-    color: var(--gold);
-    letter-spacing: 1.5px;
-    border-bottom: 1px solid rgba(255,215,0,0.08);
-    padding-bottom: 5px;
-    margin-bottom: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  /* Center */
+  #center{display:flex; flex-direction:column; padding:8px; overflow:hidden;}
+  #mangaWrap{
+    flex:1; position:relative;
+    display:flex; align-items:center; justify-content:center;
+    min-height:220px;
   }
-  .panel-title .badge {
-    font-size: 8px;
-    color: #5a7a8a;
-    font-weight: 400;
+  #mangaCanvas{background:transparent;display:block;width:100%;height:100%;cursor:pointer;}
+  #mangaOverlay{
+    position:absolute; top:6px; left:8px;
+    font-size:9px; color:#6a8a7a; line-height:1.5;
+    pointer-events:none;
   }
+  #mangaOverlay .v{color:#a0e0b0;font-weight:bold;}
+  #mangaOverlay .ki{color:var(--ki);font-weight:bold;}
+  #mangaOverlay .sho{color:var(--sho);font-weight:bold;}
+  #mangaOverlay .ten{color:var(--ten);font-weight:bold;}
+  #mangaOverlay .ketsu{color:var(--ketsu);font-weight:bold;}
+  #mangaOverlay .gold{color:var(--gold);}
+  #mangaOverlay .purple{color:var(--purple);}
 
-  /* ── MODUL-LISTE ───────────────────────────────── */
-  .module-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 4px 6px;
-    border-radius: 5px;
-    font-size: 10px;
-    color: #8aa8a0;
-    cursor: pointer;
-    border-left: 2px solid transparent;
-    transition: 0.15s;
-    margin-bottom: 2px;
+  .manga-panel{
+    background:rgba(0,0,0,0.25);
+    border:1px solid rgba(240,208,128,0.06);
+    border-radius:8px; padding:8px 10px;
+    margin-bottom:6px; font-size:9px;
   }
-  .module-item:hover {
-    background: rgba(120,220,150,0.04);
-    color: #d0e8e0;
-    border-left-color: #7ee0a0;
+  .manga-panel .head{
+    color:var(--gold); font-weight:bold; letter-spacing:1px;
+    border-bottom:1px solid rgba(255,215,0,0.06);
+    padding-bottom:3px; margin-bottom:5px;
+    display:flex; justify-content:space-between;
   }
-  .module-item.active {
-    background: rgba(120,220,150,0.06);
-    border-left-color: var(--green);
-    color: #d0e8e0;
+  .metric-row{
+    display:flex; justify-content:space-between;
+    padding:1.5px 0; border-bottom:1px solid rgba(255,255,255,0.02);
+    font-size:9px;
   }
-  .module-item .dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: #3a3a3a;
-    flex-shrink: 0;
-    transition: 0.3s;
-  }
-  .module-item.active .dot {
-    background: var(--green);
-    box-shadow: 0 0 6px var(--green);
-  }
-  .module-item .name { flex: 1; }
-  .module-item .size { font-size: 8px; color: #4a5a5a; }
-  .module-item.disabled { opacity: 0.4; }
+  .metric-row .label{color:#8aa8a0;}
+  .metric-row .val{font-weight:bold;color:#d0e8e0;}
+  .metric-row .val.gold{color:var(--gold);}
+  .metric-row .val.green{color:var(--green);}
+  .metric-row .val.purple{color:var(--purple);}
+  .metric-row .val.red{color:var(--red);}
+  .metric-row .val.cyan{color:var(--cyan);}
+  .metric-row .val.ki{color:var(--ki);}
+  .metric-row .val.sho{color:var(--sho);}
+  .metric-row .val.ten{color:var(--ten);}
+  .metric-row .val.ketsu{color:var(--ketsu);}
 
-  /* ── ORBIT ─────────────────────────────────────── */
-  #center {
-    display: flex;
-    flex-direction: column;
-    padding: 12px;
-    position: relative;
-    overflow: hidden;
+  .prog-bar{
+    width:100%; height:5px;
+    background:rgba(20,28,20,0.6);
+    border-radius:3px; overflow:hidden; margin-top:3px;
   }
-  #orbitWrap {
-    flex: 1;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .prog-bar .fill{
+    height:100%;
+    background:linear-gradient(90deg,#7ee0a0,#b388ff);
+    border-radius:3px; transition:width .3s;
   }
-  #orbitCanvas {
-    background: transparent;
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
-  #orbitOverlay {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    font-size: 10px;
-    color: #6a8a7a;
-    line-height: 1.6;
-    pointer-events: none;
-  }
-  #orbitOverlay .v { color: #a0e0b0; font-weight: bold; }
-  #orbitOverlay .gold { color: var(--gold); }
-  #orbitOverlay .purple { color: var(--purple); }
+  .prog-bar .fill.serum{background:linear-gradient(90deg,#ff6666,#f0d080);}
+  .prog-bar .fill.koop{background:linear-gradient(90deg,#b388ff,#6cf);}
+  .prog-bar .fill.ki{background:linear-gradient(90deg,transparent,#6cf);}
+  .prog-bar .fill.sho{background:linear-gradient(90deg,transparent,#8cf0d0);}
+  .prog-bar .fill.ten{background:linear-gradient(90deg,transparent,#b388ff);}
+  .prog-bar .fill.ketsu{background:linear-gradient(90deg,transparent,#f0d080);}
 
-  /* ── ARBEIT / RESPO PANEL ──────────────────────── */
-  .arbeit-panel {
-    background: rgba(0,0,0,0.25);
-    border: 1px solid rgba(120,220,150,0.04);
-    border-radius: 10px;
-    padding: 10px 12px;
-    margin-bottom: 10px;
-    font-size: 10px;
+  /* Buttons */
+  .m-buttons{display:flex; flex-wrap:wrap; gap:3px; margin-top:5px;}
+  .m-buttons button{
+    flex:1; min-width:46px;
+    background:rgba(20,20,30,0.6);
+    border:1px solid rgba(179,136,255,0.2);
+    color:var(--purple); padding:3px 0;
+    border-radius:5px; font-family:inherit;
+    font-size:9px; cursor:pointer; transition:.2s;
   }
-  .arbeit-panel .head {
-    color: var(--gold);
-    font-weight: bold;
-    letter-spacing: 1px;
-    border-bottom: 1px solid rgba(255,215,0,0.06);
-    padding-bottom: 4px;
-    margin-bottom: 6px;
-    display: flex;
-    justify-content: space-between;
-  }
-  .metric-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 2px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.02);
-    font-size: 10px;
-  }
-  .metric-row .label { color: #8aa8a0; }
-  .metric-row .val { font-weight: bold; color: #d0e8e0; }
-  .metric-row .val.gold { color: var(--gold); }
-  .metric-row .val.green { color: var(--green); }
-  .metric-row .val.purple { color: var(--purple); }
-  .metric-row .val.red { color: var(--red); }
+  .m-buttons button:hover{background:rgba(179,136,255,0.1);}
+  .m-buttons button.active{background:rgba(179,136,255,0.2);color:#fff;border-color:var(--purple);}
+  .m-buttons button.green{border-color:rgba(120,220,150,0.25);color:var(--green);}
+  .m-buttons button.green.active{background:rgba(120,220,150,0.15);color:#fff;border-color:var(--green);}
+  .m-buttons button.gold{border-color:rgba(240,208,128,0.25);color:var(--gold);}
+  .m-buttons button.gold.active{background:rgba(240,208,128,0.15);color:#fff;border-color:var(--gold);}
+  .m-buttons button.cyan{border-color:rgba(108,204,255,0.25);color:var(--cyan);}
+  .m-buttons button.cyan.active{background:rgba(108,204,255,0.15);color:#fff;border-color:var(--cyan);}
 
-  /* Fortschrittsbalken */
-  .prog-bar {
-    width: 100%;
-    height: 6px;
-    background: rgba(20,28,20,0.6);
-    border-radius: 3px;
-    overflow: hidden;
-    margin-top: 4px;
+  /* Flow */
+  .flow-indicator{
+    display:flex; align-items:center; gap:8px;
+    padding:6px 10px; margin-top:6px;
+    background:rgba(0,0,0,0.3); border-radius:8px;
+    border:1px solid rgba(108,204,255,0.1); font-size:9px;
   }
-  .prog-bar .fill {
-    height: 100%;
-    background: linear-gradient(90deg, #7ee0a0, #b388ff);
-    border-radius: 3px;
-    transition: width 0.4s;
+  .flow-arrow{font-size:16px; transition:transform .3s;}
+  .flow-arrow.hin{color:var(--cyan); transform:scaleX(-1);}
+  .flow-arrow.her{color:var(--gold);}
+  .flow-bar{
+    flex:1; height:4px; background:rgba(0,0,0,0.5);
+    border-radius:2px; overflow:hidden; position:relative;
+  }
+  .flow-bar .fill{
+    position:absolute; top:0; height:100%;
+    background:linear-gradient(90deg,#6cf,#b388ff);
+    border-radius:2px;
+  }
+  .flow-label{min-width:64px;font-weight:bold;}
+
+  /* Story text */
+  .story-text{
+    background:rgba(0,0,0,0.35); padding:8px 10px;
+    border-radius:6px; font-size:9.5px; color:#d0e8e0;
+    line-height:1.5; margin-top:5px;
+    border-left:3px solid var(--gold);
+    font-style:italic;
+  }
+  .story-text .ki{color:var(--ki);font-weight:bold;font-style:normal;}
+  .story-text .sho{color:var(--sho);font-weight:bold;font-style:normal;}
+  .story-text .ten{color:var(--ten);font-weight:bold;font-style:normal;}
+  .story-text .ketsu{color:var(--ketsu);font-weight:bold;font-style:normal;}
+
+  /* Chapters */
+  .chapter-chip{
+    display:inline-block; padding:2px 6px; margin:2px 2px 0 0;
+    border-radius:6px; font-size:8px;
+    border:1px solid rgba(240,208,128,0.3);
+    color:var(--gold);
   }
 
-  /* ── 2me-BUTTONS ───────────────────────────────── */
-  .me2-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    margin-top: 6px;
+  /* HDF */
+  #hdfBar{
+    display:flex; gap:6px; align-items:center;
+    padding:6px 10px; background:rgba(0,0,0,0.4);
+    border-top:1px solid var(--line); font-size:9px; flex-wrap:wrap;
   }
-  .me2-buttons button {
-    flex: 1;
-    min-width: 55px;
-    background: rgba(20,20,30,0.6);
-    border: 1px solid rgba(179,136,255,0.2);
-    color: var(--purple);
-    padding: 4px 0;
-    border-radius: 5px;
-    font-family: inherit;
-    font-size: 9px;
-    cursor: pointer;
-    transition: 0.2s;
+  #hdfBar label{color:#6a8a7a;letter-spacing:1px;}
+  #hdfBar input{
+    background:rgba(20,28,20,0.6);
+    border:1px solid rgba(120,220,150,0.15);
+    border-radius:6px; padding:3px 8px;
+    color:#d0e8e0; font-family:inherit; font-size:9px;
+    min-width:150px; flex:1;
   }
-  .me2-buttons button:hover { background: rgba(179,136,255,0.1); }
-  .me2-buttons button.active {
-    background: rgba(179,136,255,0.2);
-    color: #fff;
-    border-color: var(--purple);
+  #hdfBar button{
+    background:rgba(20,28,20,0.6);
+    border:1px solid rgba(120,220,150,0.2);
+    border-radius:6px; padding:3px 12px;
+    color:#d0e8e0; font-family:inherit;
+    font-size:9px; cursor:pointer; transition:.2s;
   }
+  #hdfBar button:hover{border-color:#7ee0a0;color:#fff;}
+  #hdfOut{color:var(--green);font-size:8.5px;}
 
-  /* ── HDF-BAR ───────────────────────────────────── */
-  #hdfBar {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    padding: 8px 12px;
-    background: rgba(0,0,0,0.4);
-    border-top: 1px solid var(--line);
-    font-size: 10px;
-    flex-wrap: wrap;
+  #logBar{
+    display:flex; gap:3px; align-items:center;
+    padding:3px 10px; background:rgba(0,0,0,0.55);
+    border-top:1px solid var(--line); font-size:8.5px;
   }
-  #hdfBar label { color: #6a8a7a; letter-spacing: 1px; }
-  #hdfBar input {
-    background: rgba(20,28,20,0.6);
-    border: 1px solid rgba(120,220,150,0.15);
-    border-radius: 6px;
-    padding: 4px 10px;
-    color: #d0e8e0;
-    font-family: inherit;
-    font-size: 10px;
-    min-width: 180px;
-    flex: 1;
+  #logBar span{color:#5a7a8a;letter-spacing:1px;margin-right:4px;}
+  #logBar button{
+    background:transparent; border:1px solid rgba(120,220,150,0.12);
+    color:#8aa8a0; border-radius:4px; padding:1px 7px;
+    font-family:inherit; font-size:8.5px; cursor:pointer;
   }
-  #hdfBar button {
-    background: rgba(20,28,20,0.6);
-    border: 1px solid rgba(120,220,150,0.2);
-    border-radius: 6px;
-    padding: 4px 14px;
-    color: #d0e8e0;
-    font-family: inherit;
-    font-size: 10px;
-    cursor: pointer;
-    transition: 0.2s;
+  #logBar button.active{color:#fff;border-color:var(--green);background:rgba(120,220,150,0.08);}
+  #logBox{
+    max-height:90px; overflow-y:auto;
+    padding:6px 10px; background:rgba(0,0,0,0.5);
+    border-top:1px solid var(--line);
+    font-size:8.5px; line-height:1.45; color:#8ab0c0;
   }
-  #hdfBar button:hover { border-color: #7ee0a0; color: #fff; }
-  #hdfOut { color: var(--green); font-size: 9px; }
+  #logBox .entry{padding:1px 0;border-bottom:1px solid rgba(255,255,255,0.02);}
+  #logBox .time{color:#3a4a5a;margin-right:5px;}
+  #logBox .tag{color:var(--cyan);margin-right:4px;}
+  #logBox .ok{color:var(--green);}
+  #logBox .warn{color:var(--gold);}
+  #logBox .err{color:var(--red);}
+  #logBox .djinn{color:var(--purple);}
+  #logBox .manga{color:var(--orange);}
+  #logBox .ki{color:var(--ki);}
+  #logBox .sho{color:var(--sho);}
+  #logBox .ten{color:var(--ten);}
+  #logBox .ketsu{color:var(--ketsu);}
+  #logBox.filter-ok .entry:not(.is-ok){display:none;}
+  #logBox.filter-warn .entry:not(.is-warn){display:none;}
+  #logBox.filter-err .entry:not(.is-err){display:none;}
+  #logBox.filter-djinn .entry:not(.is-djinn){display:none;}
+  #logBox.filter-manga .entry:not(.is-manga){display:none;}
 
-  /* ── LOG ───────────────────────────────────────── */
-  #logBox {
-    max-height: 110px;
-    overflow-y: auto;
-    padding: 8px 12px;
-    background: rgba(0,0,0,0.5);
-    border-top: 1px solid var(--line);
-    font-size: 9px;
-    line-height: 1.5;
-    color: #8ab0c0;
+  footer{
+    padding:5px 14px; background:rgba(6,8,16,0.85);
+    border-top:1px solid var(--line); font-size:8.5px; color:#445555;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
   }
-  #logBox .entry {
-    padding: 1px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.02);
-  }
-  #logBox .time { color: #3a4a5a; margin-right: 6px; }
-  #logBox .tag { color: var(--cyan); margin-right: 4px; }
-  #logBox .ok { color: var(--green); }
-  #logBox .warn { color: var(--gold); }
-  #logBox .err { color: var(--red); }
-
-  /* ── FOOTER ────────────────────────────────────── */
-  footer {
-    padding: 6px 16px;
-    background: rgba(6,8,16,0.85);
-    border-top: 1px solid var(--line);
-    font-size: 9px;
-    color: #445555;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  footer .gold { color: var(--gold); }
-  footer .purple { color: var(--purple); }
-  footer .green { color: var(--green); }
+  footer .gold{color:var(--gold);}
+  footer .purple{color:var(--purple);}
+  footer .green{color:var(--green);}
+  footer .cyan{color:var(--cyan);}
+  footer .ki{color:var(--ki);}
+  footer .sho{color:var(--sho);}
+  footer .ten{color:var(--ten);}
+  footer .ketsu{color:var(--ketsu);}
 </style>
 </head>
 <body>
 
 <header>
-  <h1>⚙️ ARBEIT · RESPO · INDEX <small>brain · 3-9-81 · working state</small></h1>
+  <h1>📖 MANGA · KOMA
+    <small>iki1uc · 3-9-81 · 起承転結</small>
+    <span class="badge b-manga">MANGA</span>
+    <span class="badge b-koma">KOMA</span>
+  </h1>
   <div class="status-leds">
     <span><span class="led" id="ledMaster"></span>MASTER</span>
-    <span><span class="led on pulse" id="ledArbeit"></span>ARBEIT</span>
-    <span>Respo <span id="hdrRespo" style="color:#8cf0d0;font-weight:bold;">0%</span></span>
-    <span>KlicK <span id="hdrKlick" style="color:#f0d080;font-weight:bold;">0</span></span>
-    <span>ZacK <span id="hdrZack" style="color:#f0d080;font-weight:bold;">0</span></span>
+    <span><span class="led on pulse" id="ledInk"></span>INK</span>
+    <span><span class="led on flow" id="ledFlow"></span>FLOW</span>
+    <span><span class="led djinn pulse" id="ledDjinn"></span>DJINN</span>
+    <span>Kapitel <span id="hdrChap" style="color:#f0d080;font-weight:bold;">1</span></span>
+    <span>Seite <span id="hdrPage" style="color:#8cf0d0;font-weight:bold;">1</span></span>
+    <span>KOOP <span id="hdrKoop" style="color:#6cf;font-weight:bold;">0.00</span></span>
     <span id="hdrClock" style="color:#4a5a5a;">⏱️ --:--</span>
   </div>
 </header>
 
-<div id="main">
+<div id="mobTabs">
+  <button data-tab="left">🧩 Tools</button>
+  <button data-tab="orbit" class="active">📖 Manga</button>
+  <button data-tab="right">🎛 Story</button>
+</div>
 
-  <!-- ── LINKS: MODULE ──────────────────────────── -->
+<div id="main" data-tab="orbit">
+
+  <!-- LEFT -->
   <div class="col" id="left">
-    <div class="panel-title">
-      <span>🧩 BRAIN · MODULE</span>
-      <span class="badge" id="modCount">0/15</span>
-    </div>
-    <div id="moduleList"></div>
 
-    <div class="panel-title" style="margin-top:14px;">
+    <div class="panel-title gold">
+      <span>🀄 KOMA · PANELS</span>
+      <span class="badge" id="komaCount">0/4</span>
+    </div>
+    <div id="komaList"></div>
+
+    <div class="panel-title purple" style="margin-top:12px;">
+      <span>⚛️ MANGA · TOOLS</span>
+      <span class="badge" id="toolsCount">6/6</span>
+    </div>
+    <div id="toolsList"></div>
+
+    <div class="panel-title cyan" style="margin-top:12px;">
+      <span>🔎 MAGNIFY</span>
+      <span class="badge" id="magVal">1.00×</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;margin-top:4px;font-size:9px;">
+      <span style="color:#5a7a8a">0.2</span>
+      <input id="magSlider" type="range" min="0.2" max="3.0" step="0.05" value="1"
+        style="flex:1;height:4px;-webkit-appearance:none;background:linear-gradient(90deg,#6cf,#b388ff);border-radius:2px;outline:none;">
+      <span style="color:#5a7a8a">3.0</span>
+    </div>
+
+    <div class="panel-title green" style="margin-top:12px;">
+      <span>🧬 PIPELINE</span>
+      <span class="badge" id="pipeState">—</span>
+    </div>
+    <div class="m-buttons">
+      <button id="pipeP0" class="green">P0</button>
+      <button id="pipeP1" class="green">P1</button>
+      <button id="pipeP2" class="green">P2</button>
+      <button id="pipeP4" class="green">P4</button>
+      <button id="pipePe" class="gold">Pe</button>
+    </div>
+
+    <div class="panel-title" style="margin-top:12px;">
       <span>🌀 AXIOM · MODI</span>
     </div>
-    <div class="me2-buttons">
+    <div class="m-buttons">
       <button data-mode="IQQ" class="active">IQQ</button>
       <button data-mode="OCTA">OCTA</button>
       <button data-mode="A81">A81</button>
     </div>
+
+    <div class="panel-title" style="margin-top:12px;">
+      <span>🎛 FEEDBACK</span>
+    </div>
+    <div class="m-buttons">
+      <button id="btnSound">🔇 TON</button>
+      <button id="btnAuto" class="active">⏸ AUTO</button>
+    </div>
   </div>
 
-  <!-- ── MITTE: ORBIT ───────────────────────────── -->
+  <!-- CENTER: MANGA PAGE -->
   <div id="center">
-    <div id="orbitWrap">
-      <canvas id="orbitCanvas"></canvas>
-      <div id="orbitOverlay">
-        <div>🌀 <span class="v" id="ovMode">IQQ</span> · Tick <span class="v gold" id="ovTick">0</span></div>
-        <div>◎ Symbol <span class="v purple" id="ovSymbol">◉</span> · #<span class="v" id="ovIndex">0</span></div>
-        <div>⚡ Arbeit <span class="v gold" id="ovArbeit">0%</span></div>
+    <div id="mangaWrap">
+      <canvas id="mangaCanvas"></canvas>
+      <div id="mangaOverlay">
+        <div>📖 Kap <span class="gold" id="ovChap">1</span> · Seite <span class="gold" id="ovPage">1</span> · Koma <span class="v" id="ovKoma">1/4</span></div>
+        <div>🀄 <span class="ki" id="ovKi">起</span> → <span class="sho" id="ovSho">承</span> → <span class="ten" id="ovTen">転</span> → <span class="ketsu" id="ovKetsu">結</span></div>
+        <div>🔎 Magnify <span class="v" id="ovMag">1.00×</span></div>
+        <div>🌊 Flow <span class="gold" id="ovFlow">hin ←</span></div>
       </div>
     </div>
 
-    <!-- Arbeit / Respo Kurzpanel -->
-    <div class="arbeit-panel" style="margin-top:10px;">
+    <div class="flow-indicator">
+      <span class="flow-arrow hin" id="flowArrow">➜</span>
+      <span class="flow-label" id="flowLabel" style="color:#6cf;">HIN · neue Seite</span>
+      <div class="flow-bar"><div class="fill" id="flowFill" style="left:0;width:20%;"></div></div>
+      <span style="color:#5a7a8a" id="flowAmp">0.00</span>
+    </div>
+
+    <div class="manga-panel" style="margin-top:6px;">
       <div class="head">
-        <span>📊 ARBEIT · RESPO</span>
-        <span id="arbeitBadge">bereit</span>
+        <span>📖 SEITE · ZUSTAND</span>
+        <span id="mangaBadge">zeichnen</span>
       </div>
-      <div class="metric-row"><span class="label">Fortschritt</span><span class="val gold" id="mpProg">0%</span></div>
-      <div class="prog-bar"><div class="fill" id="mpBar" style="width:0%;"></div></div>
-      <div class="metric-row" style="margin-top:6px;"><span class="label">Aktive Module</span><span class="val green" id="mpActive">0</span></div>
-      <div class="metric-row"><span class="label">Respo-Score</span><span class="val purple" id="mpRespo">0.00</span></div>
-      <div class="metric-row"><span class="label">4× Genauigkeit</span><span class="val" id="mpAcc4x">–</span></div>
-      <div class="metric-row"><span class="label">2× Prüfbarkeit</span><span class="val" id="mpVer2x">–</span></div>
+      <div class="metric-row"><span class="label">Aktives Koma</span><span class="val gold" id="mpActiveKoma">起</span></div>
+      <div class="metric-row"><span class="label">KlicK in Koma</span><span class="val gold" id="mpKomaKlick">0/98</span></div>
+      <div class="prog-bar"><div class="fill ki" id="mpKomaBar" style="width:0%;"></div></div>
+      <div class="metric-row" style="margin-top:5px;"><span class="label">Seite-fertig</span><span class="val green" id="mpPageDone">0/4</span></div>
+      <div class="metric-row"><span class="label">KOOP</span><span class="val cyan" id="mpKoop">0.00</span></div>
+      <div class="prog-bar"><div class="fill koop" id="mpKoopBar" style="width:0%;"></div></div>
+      <div class="metric-row" style="margin-top:5px;"><span class="label">Kern-Masse</span><span class="val purple" id="mpMass">0</span></div>
+      <div class="metric-row"><span class="label">Cluster</span><span class="val green" id="mpClusters">0</span></div>
+      <div class="metric-row"><span class="label">Kollektiv</span><span class="val cyan" id="mpKollektiv">0%</span></div>
+      <div class="prog-bar"><div class="fill koop" id="mpKollektivBar" style="width:0%;"></div></div>
     </div>
   </div>
 
-  <!-- ── RECHTS: 2me · ZaM · KLICK ──────────────── -->
+  <!-- RIGHT -->
   <div class="col" id="right">
 
-    <div class="panel-title">
-      <span>👁️ 2me · MASTER</span>
-      <span class="badge" id="me2Role">allow</span>
+    <div class="panel-title gold">
+      <span>📜 STORY · 起承転結</span>
+      <span class="badge" id="storyBadge">Seite 1</span>
     </div>
-    <div class="me2-buttons">
+    <div class="story-text" id="storyText">
+      <span class="ki">起</span> Eine leere Seite wartet auf Tinte …
+    </div>
+
+    <div class="panel-title purple" style="margin-top:10px;">
+      <span>🧲 KRAFTFELD · TOP TOOLS</span>
+    </div>
+    <div id="forceList"></div>
+
+    <div class="panel-title green" style="margin-top:10px;">
+      <span>🧩 CLUSTERS</span>
+      <span class="badge" id="clusterBadge">0</span>
+    </div>
+    <div id="clusterList" style="font-size:9px;line-height:1.7;color:#8aa8a0;">
+      <span style="color:#5a7a8a">— keine Cluster —</span>
+    </div>
+
+    <div class="panel-title purple" style="margin-top:10px;">
+      <span>🧞 DJINN · MANGA-EVENTS</span>
+      <span class="badge" id="djinnState">on</span>
+    </div>
+    <div class="m-buttons">
+      <button id="btnDjinn" class="active">🧞 ON</button>
+      <button id="btnDjinnFast">⚡×2</button>
+      <button id="btnDjinnSlow">🐢</button>
+      <button id="btnOrdnung">📐</button>
+    </div>
+    <div class="metric-row" style="margin-top:5px;">
+      <span class="label">Ordnungs-Grad</span>
+      <span class="val manga" id="djinnOrdnung">0%</span>
+    </div>
+    <div class="prog-bar"><div class="fill koop" id="djinnOrdnungBar" style="width:0%;"></div></div>
+    <div class="metric-row" style="margin-top:5px;">
+      <span class="label">Letztes Event</span>
+      <span class="val purple" id="djinnLast">–</span>
+    </div>
+
+    <div class="panel-title" style="margin-top:10px;">
+      <span>⚡ ZaM · SEQUENZ</span>
+      <span class="badge" id="zamState">idle</span>
+    </div>
+    <div class="m-buttons">
+      <button id="btnZamRun">▶ RUN</button>
+      <button id="btnZamStop">⏸ STOP</button>
+    </div>
+
+    <div class="panel-title gold" style="margin-top:10px;">
+      <span>🔘 KLICK · SERUM</span>
+      <span class="badge" id="klickState">idle</span>
+    </div>
+    <div class="metric-row"><span class="label">KlicK gesamt</span><span class="val gold" id="klickCount">0</span></div>
+    <div class="metric-row"><span class="label">ZacK</span><span class="val gold" id="zackCount">0</span></div>
+    <div class="metric-row"><span class="label">Serum</span><span class="val gold" id="serumState">inaktiv</span></div>
+    <div class="m-buttons">
+      <button id="btnKlick">🔘 KLICK</button>
+      <button id="btnZackReset">⟲</button>
+    </div>
+
+    <div class="panel-title cyan" style="margin-top:10px;">
+      <span>📄 SEITEN</span>
+      <span class="badge" id="pagesBadge">0 vollendet</span>
+    </div>
+    <div class="metric-row"><span class="label">Seiten gezeichnet</span><span class="val cyan" id="pagesDone">0</span></div>
+    <div class="metric-row"><span class="label">Kapitel</span><span class="val gold" id="chapNum">1</span></div>
+    <div id="chapterChips" style="margin-top:4px;"></div>
+
+    <div class="panel-title purple" style="margin-top:10px;">
+      <span>💰 EARN · SCORE</span>
+      <span class="badge" id="earnState">online</span>
+    </div>
+    <div class="metric-row"><span class="label">Score</span><span class="val purple" id="earnScore">0</span></div>
+    <div class="metric-row"><span class="label">Emotion</span><span class="val purple" id="earnEmotion">FOKUS</span></div>
+
+    <div class="panel-title" style="margin-top:10px;">
+      <span>🚀 STATION</span>
+    </div>
+    <div class="m-buttons">
+      <button id="bstPE" class="gold">PE</button>
+      <button id="bstNE" class="gold">NE</button>
+      <button id="bstWARB" class="gold">WARB</button>
+    </div>
+
+    <div class="panel-title" style="margin-top:10px;">
+      <span>🔒 ZOLL</span>
+      <span class="badge" id="zollState">offen</span>
+    </div>
+    <div class="m-buttons">
       <button id="btnAllow" class="active">ALLOW</button>
       <button id="btnBoost">BOOST</button>
       <button id="btnSlow">SLOW</button>
       <button id="btnOverride">OVERRIDE</button>
     </div>
-
-    <div class="panel-title" style="margin-top:12px;">
-      <span>⚡ ZaM · SEQUENZ</span>
-      <span class="badge" id="zamState">idle</span>
-    </div>
-    <div class="me2-buttons">
-      <button id="btnZamRun">▶ RUN</button>
-      <button id="btnZamStop">⏸ STOP</button>
-    </div>
-    <div class="metric-row" style="margin-top:6px;">
-      <span class="label">Letzte Sequenz</span>
-      <span class="val" id="zamLast">–</span>
-    </div>
-
-    <div class="panel-title" style="margin-top:12px;">
-      <span>🔘 KLICK · ZACK</span>
-      <span class="badge" id="klickState">idle</span>
-    </div>
-    <div class="metric-row"><span class="label">KlicK</span><span class="val gold" id="klickCount">0</span></div>
-    <div class="metric-row"><span class="label">ZacK</span><span class="val gold" id="zackCount">0</span></div>
-    <div class="metric-row"><span class="label">Bis ZacK</span><span class="val" id="klickRemain">100</span></div>
-    <div class="me2-buttons">
-      <button id="btnKlick">🔘 KLICK</button>
-      <button id="btnZackReset">⟲</button>
-    </div>
-
-    <div class="panel-title" style="margin-top:12px;">
-      <span>🔒 ZOLL</span>
-      <span class="badge" id="zollState">offen</span>
-    </div>
-    <div class="metric-row"><span class="label">Status</span><span class="val green" id="zollStatus">offen</span></div>
-
   </div>
-
 </div>
 
-<!-- ── HDF-BAR ───────────────────────────────────── -->
 <div id="hdfBar">
   <label>📖 HDF‑RESOLVE</label>
-  <input id="hdfInput" placeholder="#d / #e / #axiom / #81 / #zauber.6" value="#d">
+  <input id="hdfInput" placeholder="#d / #manga / #koma / #zauber.6" value="#manga" autocomplete="off">
   <button id="hdfBtn">RESOLVE</button>
   <span id="hdfOut">–</span>
 </div>
 
-<!-- ── LOG ───────────────────────────────────────── -->
+<div id="logBar">
+  <span>LOG</span>
+  <button data-f="all" class="active">alle</button>
+  <button data-f="ok">ok</button>
+  <button data-f="warn">warn</button>
+  <button data-f="err">err</button>
+  <button data-f="djinn">djinn</button>
+  <button data-f="manga">manga</button>
+</div>
 <div id="logBox">
-  <div class="entry"><span class="time">[init]</span><span class="tag">arbeit</span><span class="ok">Arbeit-Respo-Index geladen · brain/ · 15 Module</span></div>
+  <div class="entry is-ok"><span class="time">[init]</span><span class="tag">manga</span><span class="ok">MANGA·KOMA geladen · 起承転結 · 4 Koma pro Seite</span></div>
 </div>
 
 <footer>
-  <span>⚙️ ARBEIT · <span class="gold">RESPO</span> · INDEX · <span class="purple">3-9-81</span></span>
-  <span>🧩 Module <span class="green" id="ftMod">0</span> · KlicK <span class="green" id="ftKlick">0</span> · ZacK <span class="green" id="ftZack">0</span></span>
-  <span>Leertaste = KlicK · R = Reset · Z = ZaM · M = Modus</span>
+  <span>📖 MANGA · KOMA · <span class="purple">3-9-81</span> · reFINAL · <span class="cyan">flow hin↔her</span></span>
+  <span>Koma <span class="gold" id="ftKoma">0</span>/4 · Seiten <span class="green" id="ftPages">0</span> · Kapitel <span class="gold" id="ftChap">1</span> · KlicK <span class="gold" id="ftKlick">0</span></span>
+  <span>Space = KlicK · Z = ZaM · D = DJINN · O = Ordnung · F = Flow-Pulse · N = Neue Seite · 1/2/3 = Modus</span>
 </footer>
 
 <script>
 "use strict";
 // ═══════════════════════════════════════════════════════════════════
-// ARBEIT · RESPO · INDEX  —  brain/
-// Repräsentiert den Arbeitsstand der 15 Brain-Module.
-// Kompatibel: KlicK · ZaM · 2me · respo-master.js · admin-pult · STAGE
+// MANGA · KOMA — 起承転結 · iki1uc
+// Kompatibel: reFINAL · ATOM · DJINN · KlicK · ZaM · Serum · Zoll
 // ═══════════════════════════════════════════════════════════════════
 
-// ─── 1. KOMPATIBILITÄTS-LAYER (identisch zu allen anderen) ──────
-const MASTER_KEY = 'iki1uc-master-respo';
-const BC_NAME = 'iki1uc-orbit';
-
-let masterChannel = null;
-let isMasterConnected = false;
-
-const localMaster = {
-  stations: {},
-  klick: 0,
-  zack: 0,
-  zam: 'idle',
-  zoll: 'offen',
-  me2: { allow: true, boost: false, slow: false, override: false },
-  lastUpdate: Date.now(),
+// ─── KOMPAT-LAYER ──────────────────────────────────────────────
+const MASTER_KEY='iki1uc-master-respo';
+const BC_NAME='iki1uc-orbit';
+let masterChannel=null, isMasterConnected=false;
+const localMaster={
+  stations:{}, klick:0, zack:0, zam:'idle', zamCount:0, zoll:'offen',
+  me2:{allow:true,boost:false,slow:false,override:false},
+  kollektiv:0, zellen:0, score:0, lastUpdate:Date.now()
 };
-
-try {
-  const stored = localStorage.getItem(MASTER_KEY);
-  if (stored) Object.assign(localMaster, JSON.parse(stored));
-} catch (_) {}
-
-try {
-  masterChannel = new BroadcastChannel(BC_NAME);
-  masterChannel.onmessage = (ev) => {
-    const d = ev.data;
-    if (!d || !d.type) return;
-
-    if (d.type === 'master:state' && d.payload) {
-      Object.assign(localMaster, d.payload);
-      isMasterConnected = true;
-      updateAll();
-    }
-    if (d.type === 'me2:rule' && d.payload) {
-      Object.assign(localMaster.me2, d.payload);
-      updateAll();
-      syncMe2Buttons();
-      log(`2me: ${Object.entries(d.payload).map(([k,v])=>k+'='+v).join(', ')}`, '2me', 'ok');
-    }
-    if (d.type === 'zam:run') {
-      localMaster.zam = 'run';
-      updateAll();
-      log(`ZaM.run(${d.payload?.sequence?.join('→') || '?'})`, 'ZaM', 'ok');
-      if (d.payload?.steps) runZamSequence(d.payload.steps);
-    }
-    if (d.type === 'klick:step' && d.payload) {
-      localMaster.klick = d.payload.klick ?? localMaster.klick;
-      updateAll();
-    }
-    if (d.type === 'klick:zack' && d.payload) {
-      localMaster.zack = d.payload.zack ?? localMaster.zack;
-      updateAll();
-      log(`🎉 ZacK ${localMaster.zack}`, 'ZaM', 'ok');
-    }
-    if (d.type === 'mainboard:done' && d.payload) {
-      log(`MAINBOARD sim · Kompat ${d.payload.compat?.toFixed(0) ?? '?'}% · 4× ${d.payload.acc4x?.toFixed(0) ?? '–'} · 2× ${d.payload.ver2x ? 'OK' : 'FAIL'}`, 'MAINBOARD', 'ok');
-      document.getElementById('mpAcc4x').textContent = (d.payload.acc4x?.toFixed(0) ?? '–') + '%';
-      document.getElementById('mpVer2x').textContent = d.payload.ver2x ? '✅ OK' : '❌ FAIL';
-    }
+try{
+  const s=localStorage.getItem(MASTER_KEY);
+  if(s) Object.assign(localMaster, JSON.parse(s));
+}catch(_){}
+try{
+  masterChannel=new BroadcastChannel(BC_NAME);
+  masterChannel.onmessage=(ev)=>{
+    const d=ev.data; if(!d||!d.type) return;
+    if(d.type==='master:state'&&d.payload){Object.assign(localMaster,d.payload);isMasterConnected=true;updateAll();}
+    if(d.type==='me2:rule'&&d.payload){Object.assign(localMaster.me2,d.payload);updateAll();syncMe2Buttons();}
+    if(d.type==='klick:zack'&&d.payload){localMaster.zack=d.payload.zack??localMaster.zack;updateAll();}
   };
-} catch (e) { console.warn('BC fehlt:', e); }
-
-function persistMaster() {
-  try { localStorage.setItem(MASTER_KEY, JSON.stringify(localMaster)); } catch (_) {}
-}
-function sendToMaster(type, payload) {
-  localMaster.lastUpdate = Date.now();
-  persistMaster();
-  if (masterChannel) {
-    try { masterChannel.postMessage({ type, from: 'ARBEIT', payload, ts: Date.now() }); } catch (_) {}
-  }
+}catch(_){}
+function persistMaster(){try{localStorage.setItem(MASTER_KEY,JSON.stringify(localMaster));}catch(_){}}
+function sendToMaster(type,payload){
+  localMaster.lastUpdate=Date.now(); persistMaster();
+  if(masterChannel){try{masterChannel.postMessage({type,from:'MANGA',payload,ts:Date.now()});}catch(_){}}
 }
 
-// ─── 2. MODULE (aus dem brain/-Ordner) ──────────────────────────
-// Das ist der "Egg"-Inhalt — die Reihenfolge aus deinem Repo.
-const MODULES = [
-  { id:'NC_figur.js',   name:'NC_figur',   desc:'Form-Engine' },
-  { id:'NC_kraft.js',   name:'NC_kraft',   desc:'Kraft-Modell' },
-  { id:'NC_space.js',   name:'NC_space',   desc:'Raum-Modell' },
-  { id:'NC_time.js',    name:'NC_time',    desc:'Zeit-Modell' },
-  { id:'OS_CORE.js',    name:'OS_CORE',    desc:'Grundlogik' },
-  { id:'axiom.map.js',  name:'axiom.map',  desc:'Symbol-Mapping' },
-  { id:'coord.js',      name:'coord',      desc:'Koordinaten' },
-  { id:'dreieck.js',    name:'dreieck',    desc:'Geometrie' },
-  { id:'index.html',    name:'index',      desc:'UI-Einstieg', self:true },
-  { id:'m.md',          name:'m.md',       desc:'Notizen' },
-  { id:'muss.ready',    name:'muss.ready', desc:'Ready-Signal' },
-  { id:'resolver.js',   name:'resolver',   desc:'Zustandsauflösung' },
-  { id:'respo.js',      name:'respo',      desc:'Respo-Kern' },
-  { id:'router.js',     name:'router',     desc:'Modul-Routing' },
-  { id:'vec.js',        name:'vec',        desc:'Vektor-Mathe' },
+// ─── MODULES (aus manga/) ─────────────────────────────────────
+const MODULES=[
+  {id:'NC_figur.js',  name:'NC_figur',  desc:'Figur',   self:true},
+  {id:'NC_kraft.js',  name:'NC_kraft',  desc:'Kraft',   self:true},
+  {id:'NC_space.js',  name:'NC_space',  desc:'Raum',    self:true},
+  {id:'NC_time.js',   name:'NC_time',   desc:'Zeit',    self:true},
+  {id:'OS_CORE.js',   name:'OS_CORE',   desc:'Kern',    self:true},
+  {id:'axiom.map.js', name:'axiom.map', desc:'Axiom',   self:true},
+  {id:'coord.js',     name:'coord',     desc:'Coord',   self:true},
+  {id:'dreieck.js',   name:'dreieck',   desc:'Δ',       self:true},
+  {id:'index.html',   name:'index',     desc:'UI',      self:true},
+  {id:'m.md',         name:'m.md',      desc:'Notes'},
+  {id:'muss.ready',   name:'muss',      desc:'Ready',   self:true},
+  {id:'any.manga.ready',name:'any.manga',desc:'Manga-Ready',self:true},
+  {id:'resolver.js',  name:'resolver',  desc:'Resolve', self:true},
+  {id:'respo.js',     name:'respo',     desc:'Respo',   self:true},
+  {id:'router.js',    name:'router',    desc:'Route',   self:true},
+  {id:'vec.js',       name:'vec',       desc:'Vec',     self:true},
+];
+const moduleState=MODULES.map(m=>({...m,active:!!m.self}));
+
+// ─── MANGA TOOLS (Kern-Protonen/Neutronen) ────────────────────
+const TOOLS=[
+  {id:'STORY',  name:'STORY',  role:'proton',  mass:72, color:'#6cf',    label:'Story-Engine'},
+  {id:'ART',    name:'ART',    role:'proton',  mass:88, color:'#b388ff', label:'Visual-Core'},
+  {id:'TONE',   name:'TONE',   role:'neutron', mass:64, color:'#8cf0d0', label:'Mood-Modul'},
+  {id:'INK',    name:'INK',    role:'neutron', mass:54, color:'#f0d080', label:'Line-Kern'},
+  {id:'PAPER',  name:'PAPER',  role:'proton',  mass:40, color:'#ff8c00', label:'Page-Basis'},
+  {id:'LETTER', name:'LETTER', role:'neutron', mass:38, color:'#ff6666', label:'Text-Modul'},
+];
+const toolState=TOOLS.map(t=>({...t, active:true}));
+const toolAngles=TOOLS.map((_,i)=>(i/TOOLS.length)*Math.PI*2 - Math.PI/2);
+
+const BASE_COMPAT={
+  'STORY-ART':0.92,'STORY-TONE':0.85,'STORY-INK':0.80,'STORY-PAPER':0.70,'STORY-LETTER':0.88,
+  'ART-TONE':0.88,'ART-INK':0.92,'ART-PAPER':0.75,'ART-LETTER':0.55,
+  'TONE-INK':0.78,'TONE-PAPER':0.60,'TONE-LETTER':0.70,
+  'INK-PAPER':0.82,'INK-LETTER':0.60,
+  'PAPER-LETTER':0.68,
+};
+function compat(a,b){return BASE_COMPAT[[a,b].sort().join('-')]||0.4;}
+
+// ─── KOMA · PANELS (起承転結) ────────────────────────────────
+const KOMA_TYPES=[
+  {id:'ki',    glyph:'起', name:'KI',    label:'Introduction', color:'#6cf'},
+  {id:'sho',   glyph:'承', name:'SHŌ',   label:'Development',  color:'#8cf0d0'},
+  {id:'ten',   glyph:'転', name:'TEN',   label:'Twist',        color:'#b388ff'},
+  {id:'ketsu', glyph:'結', name:'KETSU', label:'Resolution',   color:'#f0d080'},
 ];
 
-const moduleState = MODULES.map(m => ({ ...m, active: !!m.self }));
-
-function renderModules() {
-  const list = document.getElementById('moduleList');
-  list.innerHTML = '';
-  let activeCount = 0;
-  moduleState.forEach((m, idx) => {
-    if (m.active) activeCount++;
-    const div = document.createElement('div');
-    div.className = 'module-item' + (m.active ? ' active' : '') + (m.self ? '' : '');
-    div.innerHTML = `
-      <span class="dot"></span>
-      <span class="name">${m.name}</span>
-      <span class="size">${m.desc}</span>
-    `;
-    div.addEventListener('click', () => toggleModule(idx));
-    list.appendChild(div);
-  });
-  document.getElementById('modCount').textContent = `${activeCount}/${MODULES.length}`;
-  document.getElementById('ftMod').textContent = activeCount;
-  return activeCount;
+function newKomaSet(){
+  return KOMA_TYPES.map((k,i)=>({
+    ...k, idx:i,
+    klick:0,       // 0..100 innerhalb des Komas
+    ink:0,         // 0..1 (klick/100)
+    done:false,
+    serumStopped:false,
+    symbol:['◉','↗','↘','3','9','◎','◆','81','△','27','▣','↺','➜','◇'][Math.floor(Math.random()*14)],
+    beat:'',
+  }));
 }
 
-function toggleModule(idx) {
-  const m = moduleState[idx];
-  m.active = !m.active;
-  const count = renderModules();
-  sendToMaster('arbeit:module', { id: m.id, active: m.active, count });
-  log(`Modul ${m.name} → ${m.active ? 'aktiv' : 'inaktiv'}`, 'arbeit', m.active ? 'ok' : 'warn');
-  updateArbeitProgress();
-}
-
-// ─── 3. ORBIT (Canvas, Axiom-Symbole) ───────────────────────────
-const ORBIT = ["◉","↗","↘","3","9","↘","↗","◎","↗","↘","3","9","↘","↗",
-               "◎","↗","↘","81","◆","↘","↗","△","↗","↘","27","▣","↘","↗","3","↺"];
-const AXIOM_MAP = {
-  '3':'IQQ','9':'IQQ',
-  '◎':'OCTA','◉':'OCTA','◆':'OCTA','△':'OCTA','▣':'OCTA','↺':'OCTA',
-  '81':'A81','27':'A81','243':'A81','729':'A81'
+const mangaState={
+  chapter:1,
+  page:1,
+  pagesDone:0,
+  komas:newKomaSet(),
+  activeIdx:0,
+  story:[],
+  pageTurning:false,
+  turnT:0,          // 0..1 während des Page-Turn
+  turnDir:'her',    // her (raus, links) | hin (rein, rechts)
+  chapters:[],      // {num, title}
 };
 
-const orbitState = {
-  index: 0,
-  history: [],
-  tick: 0,
-  mode: 'IQQ',
-  running: true,
-  speed: 3,
-  lastFrame: 0,
-  accumulator: 0,
+const STORY_TEMPLATES={
+  ki:    ['Eine Gestalt erwacht','Ein Ruf ergeht','Der Morgen bricht an','Etwas beginnt','Die Bühne ist leer','Ein Name fällt'],
+  sho:   ['Der Weg entfaltet sich','Kräfte sammeln sich','Ein Bündnis formt sich','Die Bewegung wächst','Verbindungen knüpfen','Schritte werden sicher'],
+  ten:   ['Der Boden bebt','Ein Riss erscheint','Alles kippt','Die Maske fällt','Der Wind dreht','Ein Zeichen bricht'],
+  ketsu: ['Stille kehrt ein','Ein neues Gleichgewicht','Der Kreis schließt sich','Ruhe nach dem Sturm','Es bleibt ein Zeichen','Der Atem wird ruhig'],
 };
-
-const canvas = document.getElementById('orbitCanvas');
-const ctx = canvas.getContext('2d');
-
-function resizeCanvas() {
-  const wrap = canvas.parentElement;
-  const dpr = window.devicePixelRatio || 1;
-  const w = wrap.clientWidth;
-  const h = wrap.clientHeight;
-  canvas.width = w * dpr;
-  canvas.height = h * dpr;
-  canvas.style.width = w + 'px';
-  canvas.style.height = h + 'px';
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+function pickStoryBeat(type){
+  const arr=STORY_TEMPLATES[type]||['…'];
+  return arr[Math.floor(Math.random()*arr.length)];
 }
-window.addEventListener('resize', resizeCanvas);
 
-function drawOrbit() {
-  const w = canvas.width / (window.devicePixelRatio || 1);
-  const h = canvas.height / (window.devicePixelRatio || 1);
-  ctx.clearRect(0, 0, w, h);
-
-  const cx = w / 2;
-  const cy = h / 2;
-  const R = Math.min(w, h) * 0.32;
-
-  // Hintergrund-Ring (Arbeit-Fortschritt)
-  const activeCount = moduleState.filter(m => m.active).length;
-  const progress = activeCount / MODULES.length;
-  ctx.beginPath();
-  ctx.arc(cx, cy, R, 0, Math.PI * 2);
-  ctx.strokeStyle = 'rgba(120,220,150,0.08)';
-  ctx.lineWidth = 2;
-  ctx.stroke();
-
-  // Fortschritts-Bogen
-  ctx.beginPath();
-  ctx.arc(cx, cy, R, -Math.PI/2, -Math.PI/2 + progress * Math.PI * 2);
-  ctx.strokeStyle = 'rgba(179,136,255,0.6)';
-  ctx.lineWidth = 3;
-  ctx.stroke();
-
-  // Innerer Ring (Tick)
-  ctx.beginPath();
-  ctx.arc(cx, cy, R * 0.7, 0, Math.PI * 2);
-  ctx.strokeStyle = 'rgba(120,220,150,0.05)';
-  ctx.lineWidth = 1;
-  ctx.stroke();
-
-  // Orbit-Symbole rund um den Ring
-  const numSym = 8;
-  const symIndexes = [];
-  for (let i = 0; i < numSym; i++) {
-    symIndexes.push((orbitState.index + i * 4) % ORBIT.length);
+// ─── KRAFTFELD (tools) ───────────────────────────────────────
+const forceState={
+  magnify:1.0, G:0.0008, clusterThresh:0.35,
+  pairForces:{}, totalGrav:0, clusters:[], koop:0, pool:0
+};
+function computeForces(){
+  const pairs={}; let total=0;
+  const active=TOOLS.filter((t,i)=>toolState[i].active);
+  for(let i=0;i<TOOLS.length;i++){
+    if(!toolState[i].active) continue;
+    for(let j=i+1;j<TOOLS.length;j++){
+      if(!toolState[j].active) continue;
+      const a=TOOLS[i], b=TOOLS[j];
+      const c=compat(a.id,b.id);
+      let da=Math.abs(toolAngles[i]-toolAngles[j]);
+      if(da>Math.PI) da=2*Math.PI-da;
+      const distNorm=da/Math.PI;
+      const grav=forceState.G*a.mass*b.mass*c*forceState.magnify/(1+distNorm*3);
+      pairs[[a.id,b.id].sort().join('-')]=grav;
+      total+=grav;
+    }
   }
-  symIndexes.forEach((symIdx, i) => {
-    const angle = (i / numSym) * Math.PI * 2 + orbitState.tick * 0.005;
-    const x = cx + Math.cos(angle) * R;
-    const y = cy + Math.sin(angle) * R;
-    const sym = ORBIT[symIdx];
-    const isMain = i === 0;
-    ctx.fillStyle = isMain ? '#6cf' : 'rgba(108,204,255,0.35)';
-    ctx.font = (isMain ? 22 : 14) + 'px Consolas';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    if (isMain) { ctx.shadowColor = '#6cf'; ctx.shadowBlur = 14; }
-    ctx.fillText(sym, x, y);
-    ctx.shadowBlur = 0;
+  forceState.pairForces=pairs;
+  forceState.totalGrav=total;
+  forceState.pool=total/Math.max(1, TOOLS.length*(TOOLS.length-1)/2);
+
+  // Union-Find für Cluster
+  const parent={}; TOOLS.forEach(t=>parent[t.id]=t.id);
+  const find=(x)=>parent[x]===x?x:(parent[x]=find(parent[x]));
+  const union=(x,y)=>{const rx=find(x),ry=find(y);if(rx!==ry)parent[rx]=ry;};
+  for(const [k,g] of Object.entries(pairs)){
+    if(g>=forceState.clusterThresh){
+      const [a,b]=k.split('-'); union(a,b);
+    }
+  }
+  const groups={};
+  TOOLS.forEach(t=>{const r=find(t.id);(groups[r]=groups[r]||[]).push(t.id);});
+  forceState.clusters=Object.values(groups).filter(g=>g.length>=2);
+
+  // KOOP
+  let koop=0;
+  for(const cl of forceState.clusters){
+    let s=0;
+    for(let i=0;i<cl.length;i++)
+      for(let j=i+1;j<cl.length;j++)
+        s+=pairs[[cl[i],cl[j]].sort().join('-')]||0;
+    koop += s*(cl.length/TOOLS.length);
+  }
+  forceState.koop=koop;
+}
+
+// ─── FLOW (Seite hin ↔ her) ──────────────────────────────────
+const flowState={
+  phase:0, speed:0.003, dir:'hin', flips:0, amp:0
+};
+function flowTick(){
+  flowState.phase += flowState.speed;
+  const p=flowState.phase%2;
+  const tri=p<1?p:2-p;
+  flowState.amp=tri;
+  const newDir = p<1 ? 'her' : 'hin';
+  if(newDir!==flowState.dir){
+    flowState.dir=newDir; flowState.flips++;
+  }
+  const arrow=document.getElementById('flowArrow');
+  const label=document.getElementById('flowLabel');
+  const fill=document.getElementById('flowFill');
+  arrow.className='flow-arrow '+flowState.dir;
+  label.textContent = flowState.dir==='hin' ? 'HIN · neue Seite' : 'HER · blättern';
+  label.style.color = flowState.dir==='hin' ? 'var(--cyan)' : 'var(--gold)';
+  if(flowState.dir==='hin'){
+    fill.style.left=(100-tri*100)+'%'; fill.style.width='100%';
+    fill.style.background='linear-gradient(90deg,transparent,#6cf)';
+  } else {
+    fill.style.left='0%'; fill.style.width=(tri*100)+'%';
+    fill.style.background='linear-gradient(90deg,#f0d080,transparent)';
+  }
+  document.getElementById('flowAmp').textContent=tri.toFixed(2);
+  document.getElementById('ovFlow').textContent=
+    (flowState.dir==='hin'?'hin ← ':'her → ')+tri.toFixed(2);
+}
+
+// ─── PARTIKEL (Tinte) ────────────────────────────────────────
+const particles=[];
+function spawnInk(x,y,color){
+  for(let i=0;i<4;i++){
+    particles.push({
+      x,y,
+      vx:(Math.random()-0.5)*2.2,
+      vy:(Math.random()-0.5)*2.2,
+      life:0, maxLife:40+Math.random()*30,
+      color:color||'#f0d080',
+      size:1.2+Math.random()*1.6
+    });
+  }
+}
+function particlesTick(){
+  for(let i=particles.length-1;i>=0;i--){
+    const p=particles[i];
+    p.x+=p.vx; p.y+=p.vy;
+    p.vy+=0.02;
+    p.life++;
+    if(p.life>p.maxLife) particles.splice(i,1);
+  }
+}
+
+// ─── CANVAS ─────────────────────────────────────────────────
+const canvas=document.getElementById('mangaCanvas');
+const ctx=canvas.getContext('2d');
+function resizeCanvas(){
+  const wrap=canvas.parentElement;
+  const dpr=window.devicePixelRatio||1;
+  const w=wrap.clientWidth, h=wrap.clientHeight;
+  canvas.width=w*dpr; canvas.height=h*dpr;
+  canvas.style.width=w+'px'; canvas.style.height=h+'px';
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+window.addEventListener('resize',resizeCanvas);
+if(window.ResizeObserver) new ResizeObserver(resizeCanvas).observe(document.getElementById('mangaWrap'));
+
+// Panel-Rechtecke in Screen-Koordinaten (werden bei jedem Draw gesetzt)
+let panelRects=[];
+
+function drawManga(){
+  const w=canvas.width/(window.devicePixelRatio||1);
+  const h=canvas.height/(window.devicePixelRatio||1);
+  ctx.clearRect(0,0,w,h);
+
+  const pageTurnOffset = mangaState.pageTurning
+    ? (mangaState.turnDir==='her' ? -mangaState.turnT*w : (1-mangaState.turnT)*w)
+    : 0;
+
+  ctx.save();
+  ctx.translate(pageTurnOffset, 0);
+
+  // Paper background (subtle)
+  ctx.fillStyle='rgba(15,18,28,0.7)';
+  ctx.fillRect(0,0,w,h);
+
+  // Reading-order guides (dashed)
+  ctx.strokeStyle='rgba(120,220,150,0.06)';
+  ctx.setLineDash([4,4]);
+  ctx.lineWidth=1;
+  ctx.beginPath();
+  ctx.moveTo(w*0.5, 8); ctx.lineTo(w*0.5, h-8);
+  ctx.moveTo(8, h*0.5); ctx.lineTo(w-8, h*0.5);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  const g=Math.max(8, Math.min(w,h)*0.025);
+  const pw=(w-3*g)/2;
+  const ph=(h-3*g)/2;
+
+  // Panel rects (manga reading order: TR → TL → BR → BL)
+  const layout=[
+    {x:g+pw+g, y:g,      w:pw, h:ph}, // 0: KI (top-right)
+    {x:g,      y:g,      w:pw, h:ph}, // 1: SHŌ (top-left)
+    {x:g+pw+g, y:g+ph+g, w:pw, h:ph}, // 2: TEN (bottom-right)
+    {x:g,      y:g+ph+g, w:pw, h:ph}, // 3: KETSU (bottom-left)
+  ];
+  panelRects=layout.map((r,i)=>({...r, idx:i}));
+
+  mangaState.komas.forEach((koma,i)=>{
+    const r=layout[i];
+    drawKoma(r.x, r.y, r.w, r.h, koma, i);
   });
 
-  // Kern (Arbeit)
-  const pulse = 1 + 0.08 * Math.sin(orbitState.tick * 0.06);
-  const coreR = R * 0.35 * pulse;
-  const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, coreR);
-  grad.addColorStop(0, 'rgba(179,136,255,0.7)');
-  grad.addColorStop(0.6, 'rgba(179,136,255,0.25)');
-  grad.addColorStop(1, 'rgba(179,136,255,0)');
-  ctx.fillStyle = grad;
-  ctx.beginPath();
-  ctx.arc(cx, cy, coreR, 0, Math.PI * 2);
+  // Reading order arrows in gutters
+  ctx.strokeStyle='rgba(240,208,128,0.25)';
+  ctx.lineWidth=1.2;
+  drawArrow(w*0.5, g+ph*0.5, w*0.5 - g*0.4, g+ph*0.5, 'left');   // TR→TL
+  drawArrow(w*0.5, g+ph*0.5, w*0.5, g+ph*1.4, 'down');           // TL→BR is not right... 
+  // Actually: after TL, next is BR (2). So arrow from TL bottom → BR bottom.
+  drawArrow(w*0.4, g+ph+g*0.5, w*0.4, g+ph+g*0.5, 'down');       // marker
+  drawArrow(w*0.5, h-g-2, w*0.4, h-g-2, 'left');                  // BR→BL
+
+  // Page number
+  ctx.fillStyle='rgba(240,208,128,0.35)';
+  ctx.font='bold 10px Consolas';
+  ctx.textAlign='right';
+  ctx.fillText(`Seite ${mangaState.page} · Kap ${mangaState.chapter}`, w-10, h-10);
+
+  // Chapter title
+  ctx.fillStyle='rgba(179,136,255,0.5)';
+  ctx.font='bold 10px Consolas';
+  ctx.textAlign='left';
+  ctx.fillText(`起承転結 · ${String(mangaState.chapter).padStart(2,'0')}`, 12, h-10);
+
+  // Particles
+  particles.forEach(p=>{
+    const a=Math.max(0,1-p.life/p.maxLife);
+    ctx.fillStyle=p.color+Math.round(a*255).toString(16).padStart(2,'0');
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.size*a,0,Math.PI*2); ctx.fill();
+  });
+
+  ctx.restore();
+
+  // During page turn, overlay fade
+  if(mangaState.pageTurning){
+    const a=Math.min(0.6, Math.abs(mangaState.turnT-0.5)*1.2);
+    ctx.fillStyle=`rgba(5,7,14,${a})`;
+    ctx.fillRect(0,0,w,h);
+  }
+}
+
+function drawKoma(x,y,w,h,koma,idx){
+  const active = idx===mangaState.activeIdx && !koma.done;
+  const done = koma.done;
+  const scale = active ? 1.015 : 1.0;
+  const sx = x + w*(1-scale)/2;
+  const sy = y + h*(1-scale)/2;
+  const sw = w*scale;
+  const sh = h*scale;
+
+  ctx.save();
+
+  // Panel base
+  ctx.fillStyle = done ? 'rgba(15,22,30,0.85)' : 'rgba(8,12,20,0.9)';
+  roundRect(ctx, sx, sy, sw, sh, 6);
   ctx.fill();
 
-  // Mittiges Symbol
-  const symbol = ORBIT[orbitState.index];
-  ctx.fillStyle = '#d0e8e0';
-  ctx.font = 'bold 32px Consolas';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.shadowColor = '#b388ff';
-  ctx.shadowBlur = 20;
-  ctx.fillText(symbol, cx, cy);
-  ctx.shadowBlur = 0;
+  // Active glow
+  if(active){
+    ctx.shadowColor=koma.color; ctx.shadowBlur=18;
+    ctx.strokeStyle=koma.color; ctx.lineWidth=2.4;
+    roundRect(ctx, sx, sy, sw, sh, 6); ctx.stroke();
+    ctx.shadowBlur=0;
+  } else {
+    ctx.strokeStyle = done ? koma.color+'88' : 'rgba(120,140,160,0.35)';
+    ctx.lineWidth = done ? 1.6 : 1;
+    roundRect(ctx, sx, sy, sw, sh, 6); ctx.stroke();
+  }
 
-  // Info unten
-  ctx.fillStyle = 'rgba(90,122,138,0.7)';
-  ctx.font = '10px Consolas';
-  ctx.textAlign = 'center';
-  ctx.fillText(`#${orbitState.index} · ${AXIOM_MAP[symbol] || '—'} · ${orbitState.mode}`, cx, cy + R + 26);
+  // Big glyph background (起承転結)
+  ctx.save();
+  ctx.globalAlpha = done ? 0.35 : (active ? 0.22 : 0.10);
+  ctx.fillStyle = koma.color;
+  ctx.font = `bold ${Math.min(sw,sh)*0.45}px "Yu Mincho","Hiragino Mincho ProN","MS Mincho",serif`;
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText(koma.glyph, sx+sw/2, sy+sh/2);
+  ctx.restore();
+
+  // Hatching when not done (ink in progress)
+  if(!done){
+    const hatchAlpha = 0.03 + koma.ink*0.10;
+    ctx.save();
+    ctx.beginPath();
+    roundRect(ctx, sx, sy, sw, sh, 6);
+    ctx.clip();
+    ctx.strokeStyle=koma.color;
+    ctx.globalAlpha=hatchAlpha;
+    ctx.lineWidth=0.8;
+    const step=Math.max(6, 16 - koma.ink*8);
+    for(let i=-sh;i<sw+sh;i+=step){
+      ctx.beginPath();
+      ctx.moveTo(sx+i, sy);
+      ctx.lineTo(sx+i-sh, sy+sh);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  // When done: color fill overlay
+  if(done){
+    ctx.save();
+    ctx.beginPath();
+    roundRect(ctx, sx, sy, sw, sh, 6);
+    ctx.clip();
+    const grad = ctx.createLinearGradient(sx, sy, sx, sy+sh);
+    grad.addColorStop(0, koma.color+'22');
+    grad.addColorStop(1, koma.color+'05');
+    ctx.fillStyle=grad;
+    ctx.fillRect(sx, sy, sw, sh);
+    ctx.restore();
+  }
+
+  // Header strip: reading index + type
+  ctx.fillStyle = 'rgba(0,0,0,0.4)';
+  ctx.fillRect(sx, sy, sw, 18);
+  ctx.fillStyle = koma.color;
+  ctx.font = 'bold 10px Consolas';
+  ctx.textAlign='left'; ctx.textBaseline='middle';
+  ctx.fillText(`${idx+1} · ${koma.name}`, sx+7, sy+9);
+  ctx.textAlign='right';
+  ctx.fillStyle='rgba(200,220,240,0.55)';
+  ctx.fillText(done?'✔ done':(active?'✎ zeichnen':''), sx+sw-7, sy+9);
+
+  // Symbol corner
+  ctx.fillStyle=koma.color;
+  ctx.font='bold 14px Consolas';
+  ctx.textAlign='right'; ctx.textBaseline='top';
+  ctx.fillText(koma.symbol, sx+sw-8, sy+24);
+
+  // Progress bar in panel
+  const barW = sw*0.6;
+  const barX = sx + (sw-barW)/2;
+  const barY = sy + sh - 20;
+  ctx.fillStyle='rgba(0,0,0,0.6)';
+  roundRect(ctx, barX, barY, barW, 5, 2); ctx.fill();
+  ctx.fillStyle=koma.color;
+  roundRect(ctx, barX, barY, barW*koma.ink, 5, 2); ctx.fill();
+
+  // Klick count
+  ctx.fillStyle='rgba(200,220,240,0.75)';
+  ctx.font='9px Consolas';
+  ctx.textAlign='center'; ctx.textBaseline='bottom';
+  const countText = done ? `ZaM ✓ · ZacK+1` : `${koma.klick}/100`;
+  ctx.fillText(countText, sx+sw/2, barY-3);
+
+  // Serum badge
+  if(koma.serumStopped && !done){
+    ctx.fillStyle='rgba(240,208,128,0.85)';
+    ctx.font='bold 9px Consolas';
+    ctx.textAlign='center'; ctx.textBaseline='bottom';
+    ctx.fillText('🩸 Serum · 99 + 100', sx+sw/2, barY-16);
+  }
+
+  ctx.restore();
 }
 
-// ─── 4. LOOP ───────────────────────────────────────────────────
-const STEP_BASE = 800, STEP_FACTOR = 60, STEP_MIN = 100;
-function loop(now) {
-  if (!orbitState.lastFrame) orbitState.lastFrame = now;
-  const delta = now - orbitState.lastFrame;
-  orbitState.lastFrame = now;
+function roundRect(c,x,y,w,h,r){
+  c.beginPath();
+  c.moveTo(x+r,y);
+  c.arcTo(x+w,y,  x+w,y+h, r);
+  c.arcTo(x+w,y+h,x,  y+h, r);
+  c.arcTo(x,  y+h,x,  y,   r);
+  c.arcTo(x,  y,  x+w,y,   r);
+  c.closePath();
+}
+function drawArrow(x1,y1,x2,y2,dir){
+  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+  const ang = Math.atan2(y2-y1, x2-x1);
+  ctx.beginPath();
+  ctx.moveTo(x2, y2);
+  ctx.lineTo(x2 - 5*Math.cos(ang-0.4), y2 - 5*Math.sin(ang-0.4));
+  ctx.lineTo(x2 - 5*Math.cos(ang+0.4), y2 - 5*Math.sin(ang+0.4));
+  ctx.closePath();
+  ctx.fillStyle='rgba(240,208,128,0.4)';
+  ctx.fill();
+}
 
-  if (orbitState.running && localMaster.me2.allow) {
-    orbitState.accumulator += delta;
-    const stepTime = Math.max(STEP_MIN, STEP_BASE - orbitState.speed * STEP_FACTOR);
-    let guard = 0;
-    while (orbitState.accumulator >= stepTime && guard < 8) {
-      stepOrbit();
-      orbitState.accumulator -= stepTime;
-      guard++;
+// ─── LOOP ───────────────────────────────────────────────────
+const STEP_BASE=800, STEP_FACTOR=60, STEP_MIN=100;
+let lastFrame=0, accumulator=0, tick=0;
+
+function loop(now){
+  if(!lastFrame) lastFrame=now;
+  const delta=now-lastFrame; lastFrame=now;
+
+  tick++;
+  flowTick();
+  particlesTick();
+
+  // Page turn animation
+  if(mangaState.pageTurning){
+    mangaState.turnT += delta/800;
+    if(mangaState.turnT>=1){
+      // Finish turn
+      mangaState.pageTurning=false;
+      mangaState.turnT=0;
+      startNewPage();
     }
   }
 
-  orbitState.tick++;
-  drawOrbit();
+  if(tick%30===0) computeForces();
+
+  drawManga();
+  updateMangaUI();
   requestAnimationFrame(loop);
 }
 
-function stepOrbit() {
-  orbitState.index = (orbitState.index + 1) % ORBIT.length;
-  orbitState.history.push(orbitState.index);
-  if (orbitState.history.length > 5) orbitState.history.shift();
-  orbitState.tick++;
+// ─── KLICK / INK / SERUM / ZAM pro Koma ────────────────────
+let klickCounter=localMaster.klick||0;
+let zackCounter=localMaster.zack||0;
+let activeSerumStopped=false;
 
-  document.getElementById('ovIndex').textContent = orbitState.index;
-  document.getElementById('ovSymbol').textContent = ORBIT[orbitState.index];
-  document.getElementById('ovTick').textContent = orbitState.tick;
+function addKlick(n=1, fromDjinn=false, komaIdx=null){
+  if(!localMaster.me2.allow){log('⛔ KlicK blockiert','Zoll','err');beep(220,0.06);return;}
+  if(mangaState.pageTurning) return;
 
-  sendToMaster('arbeit:step', {
-    index: orbitState.index,
-    symbol: ORBIT[orbitState.index],
-    axiom: AXIOM_MAP[ORBIT[orbitState.index]] || '—',
-    mode: orbitState.mode,
-    tick: orbitState.tick,
-  });
-}
+  const idx = komaIdx!==null ? komaIdx : mangaState.activeIdx;
+  const koma = mangaState.komas[idx];
+  if(!koma || koma.done) return;
 
-// ─── 5. KLICK-ZÄHLER (99 → ZacK 1) ───────────────────────────────
-let klickCounter = localMaster.klick || 0;
-let zackCounter = localMaster.zack || 0;
-
-function addKlick(n = 1) {
-  if (!localMaster.me2.allow) {
-    log('⛔ KlicK blockiert – Zoll geschlossen', 'Zoll', 'err');
+  // Serum-Check innerhalb des Komas
+  if(!fromDjinn && koma.serumStopped){
+    log(`🩸 Serum in ${koma.name} · bewusst 99 + 100 klicken`,'Serum','warn');
     return;
   }
-  const mult = localMaster.me2.boost ? 2 : (localMaster.me2.slow ? 0.5 : 1);
-  klickCounter += n * mult;
-  if (klickCounter >= 100) {
-    const gained = Math.floor(klickCounter / 100);
-    klickCounter = klickCounter % 100;
-    zackCounter += gained;
-    log(`🎉 100 KlicK → ${gained} ZacK (total ${zackCounter})`, 'ZaM', 'ok');
-    sendToMaster('klick:zack', { zack: zackCounter, fromKlick: 100 });
+
+  const mult = localMaster.me2.boost?2:(localMaster.me2.slow?0.5:1);
+  const before = koma.klick;
+  koma.klick += n*mult;
+
+  if(!fromDjinn) beep(660,0.03);
+
+  // Serum-Stop bei 98
+  if(!fromDjinn && before<98 && koma.klick>=98 && koma.klick<100){
+    koma.klick=98;
+    koma.serumStopped=true;
+    koma.ink=0.98;
+    log(`🩸 SERUM · ${koma.name} bei 98 gestoppt — bewusst 99 + 100`,'Serum','warn');
+    updateAll();
+    return;
   }
-  localMaster.klick = klickCounter;
-  localMaster.zack = zackCounter;
+
+  // Koma fertig → 100 → ZaM
+  if(koma.klick>=100){
+    koma.klick=100;
+    koma.ink=1.0;
+    koma.done=true;
+    koma.serumStopped=false;
+    const gained=1;
+    zackCounter+=gained;
+    klickCounter += 100;
+    log(`🀄 KOMA ${koma.name} vollendet · ZaM ✓ · +1 ZacK`,'Manga',koma.id);
+    beep(880,0.12);
+    addScore(50);
+    // Sichtbarer Ink-Burst
+    const r = panelRects[idx];
+    if(r){
+      for(let i=0;i<30;i++)
+        spawnInk(r.x+Math.random()*r.w, r.y+Math.random()*r.h, koma.color);
+    }
+    // Story-Beat anfügen
+    koma.beat = pickStoryBeat(koma.id);
+    renderStory();
+    // Nächstes Koma
+    const next = mangaState.komas.findIndex(k=>!k.done);
+    if(next===-1){
+      // Seite fertig → Page-Turn starten
+      triggerPageTurn();
+    } else {
+      mangaState.activeIdx=next;
+      log(`✎ aktives Koma → ${mangaState.komas[next].name}`,'Manga','manga');
+    }
+  }
+
+  koma.ink = Math.min(1, koma.klick/100);
+  localMaster.klick=klickCounter;
+  localMaster.zack=zackCounter;
   persistMaster();
   updateAll();
-  sendToMaster('klick:step', { klick: klickCounter, zack: zackCounter });
 }
 
-function resetKlick() {
-  klickCounter = 0;
-  zackCounter = 0;
-  localMaster.klick = 0;
-  localMaster.zack = 0;
-  persistMaster();
-  updateAll();
-  log('⟲ KlicK/ZacK zurückgesetzt', 'KlicK', 'warn');
+function resetKlick(){
+  klickCounter=0; zackCounter=0;
+  localMaster.klick=0; localMaster.zack=0;
+  mangaState.komas=newKomaSet();
+  mangaState.activeIdx=0;
+  persistMaster(); updateAll();
+  log('⟲ KlicK/ZacK/Serum zurückgesetzt','KlicK','warn');
 }
 
-// ─── 6. ZaM-SEQUENZ ─────────────────────────────────────────────
-function runZamSequence(steps) {
-  log(`ZaM-Sequenz: ${steps.join(' → ')}`, 'ZaM', 'ok');
-  localMaster.zam = 'run';
+function setActiveKoma(idx){
+  const k=mangaState.komas[idx];
+  if(!k || k.done) return;
+  mangaState.activeIdx=idx;
+  log(`✎ Koma gewählt → ${k.name}`,'Manga','manga');
+}
+
+// ─── PAGE-TURN ──────────────────────────────────────────────
+function triggerPageTurn(){
+  mangaState.pageTurning=true;
+  mangaState.turnT=0;
+  mangaState.turnDir='her';
+  log(`📄 Seite ${mangaState.page} vollendet · blättern →`,'Manga','manga');
+  addScore(200);
+}
+
+function startNewPage(){
+  mangaState.page++;
+  mangaState.pagesDone++;
+  mangaState.komas=newKomaSet();
+  mangaState.activeIdx=0;
+  log(`📄 Neue Seite ${mangaState.page}`,'Manga','manga');
+
+  // Kapitel alle 4 Seiten
+  if(mangaState.pagesDone>0 && mangaState.pagesDone%4===0){
+    mangaState.chapter++;
+    mangaState.chapters.push({num:mangaState.chapter-1, title:`Kapitel ${mangaState.chapter-1} · 起承転結`});
+    log(`📚 KAPITEL ${mangaState.chapter-1} vollendet → Kapitel ${mangaState.chapter}`,'Manga','manga');
+    addScore(500);
+    renderChapterChips();
+  }
+  renderStory();
+}
+
+function manualNewPage(){
+  if(mangaState.pageTurning) return;
+  triggerPageTurn();
+}
+
+// ─── STORY RENDER ───────────────────────────────────────────
+function renderStory(){
+  const el=document.getElementById('storyText');
+  const anyBeat = mangaState.komas.some(k=>k.beat);
+  if(!anyBeat){
+    el.innerHTML=`<span class="ki">起</span> Eine leere Seite wartet auf Tinte …`;
+    return;
+  }
+  const parts=mangaState.komas.map((k,i)=>{
+    const cls=k.id;
+    if(k.done && k.beat) return `<span class="${cls}">${k.glyph}</span> ${k.beat}`;
+    if(k.done)            return `<span class="${cls}">${k.glyph}</span> ✎ vollendet`;
+    return `<span class="${cls}">${k.glyph}</span> <i style="opacity:.5">…</i>`;
+  });
+  el.innerHTML = parts.join('<br>');
+  document.getElementById('storyBadge').textContent=`Seite ${mangaState.page}`;
+}
+
+function renderChapterChips(){
+  const el=document.getElementById('chapterChips');
+  el.innerHTML=mangaState.chapters.map(c=>`<span class="chapter-chip">📚 ${c.title}</span>`).join('');
+  if(mangaState.chapters.length===0) el.innerHTML='<span style="color:#5a7a8a;font-size:8.5px">— noch keine Kapitel —</span>';
+}
+
+// ─── EARN / SCORE ───────────────────────────────────────────
+function addScore(n){
+  localMaster.score=(localMaster.score||0)+n;
   updateAll();
-  let i = 0;
-  const next = () => {
-    if (i >= steps.length) {
-      localMaster.zam = 'done';
-      updateAll();
-      sendToMaster('zam:done', { sequence: steps });
-      log(`✅ ZaM-Sequenz fertig (${steps.length} Schritte)`, 'ZaM', 'ok');
+}
+
+// ─── KOLLEKTIV ──────────────────────────────────────────────
+function befreieZelle(n=1){
+  localMaster.zellen=Math.min(59,(localMaster.zellen||0)+n);
+  localMaster.kollektiv=Math.min(100,Math.round((localMaster.zellen/59)*100));
+  updateAll();
+}
+
+// ─── UI-UPDATE ──────────────────────────────────────────────
+function updateMangaUI(){
+  document.getElementById('ovChap').textContent=mangaState.chapter;
+  document.getElementById('ovPage').textContent=mangaState.page;
+  const doneKomas=mangaState.komas.filter(k=>k.done).length;
+  document.getElementById('ovKoma').textContent=`${doneKomas}/4`;
+  const active=mangaState.komas[mangaState.activeIdx];
+  document.getElementById('ovMag').textContent=forceState.magnify.toFixed(2)+'×';
+  document.getElementById('magVal').textContent=forceState.magnify.toFixed(2)+'×';
+
+  // Panel metrics
+  if(active){
+    document.getElementById('mpActiveKoma').textContent=active.glyph+' '+active.name;
+    document.getElementById('mpActiveKoma').className='val '+active.id;
+    document.getElementById('mpKomaKlick').textContent=active.klick+'/98';
+    document.getElementById('mpKomaBar').style.width=Math.min(100,active.klick)+'%';
+    document.getElementById('mpKomaBar').className='fill '+active.id;
+  }
+  document.getElementById('mpPageDone').textContent=`${doneKomas}/4`;
+  document.getElementById('mpMass').textContent=toolState.filter(t=>t.active).reduce((a,t)=>a+t.mass,0);
+  document.getElementById('mpKoop').textContent=forceState.koop.toFixed(2);
+  document.getElementById('mpKoopBar').style.width=Math.min(100,forceState.koop*20)+'%';
+  document.getElementById('mpClusters').textContent=forceState.clusters.length;
+  document.getElementById('mpKollektiv').textContent=localMaster.kollektiv+'%';
+  document.getElementById('mpKollektivBar').style.width=localMaster.kollektiv+'%';
+  document.getElementById('hdrKoop').textContent=forceState.koop.toFixed(2);
+  document.getElementById('hdrChap').textContent=mangaState.chapter;
+  document.getElementById('hdrPage').textContent=mangaState.page;
+
+  // Koma list
+  renderKomaList();
+  updateForceUI();
+}
+
+function renderKomaList(){
+  const list=document.getElementById('komaList');
+  list.innerHTML='';
+  mangaState.komas.forEach((k,i)=>{
+    const div=document.createElement('div');
+    div.className='koma-item'+(k.done?' done':(i===mangaState.activeIdx?' active':''));
+    div.innerHTML=`
+      <span class="glyph" style="color:${k.color}">${k.glyph}</span>
+      <span class="kn">${k.name} · ${k.label}</span>
+      <span class="ki-val">${k.done?'✔':k.klick+'/98'}</span>
+    `;
+    div.addEventListener('click',()=>setActiveKoma(i));
+    list.appendChild(div);
+  });
+  document.getElementById('komaCount').textContent=
+    `${mangaState.komas.filter(k=>k.done).length}/4`;
+}
+
+function renderTools(){
+  const list=document.getElementById('toolsList');
+  list.innerHTML='';
+  toolState.forEach((t,i)=>{
+    const div=document.createElement('div');
+    div.className='tool-item'+(t.active?' active':'');
+    div.innerHTML=`
+      <span class="td" style="background:${t.color};box-shadow:0 0 5px ${t.color};"></span>
+      <span class="tn">${t.name}</span>
+      <span class="tm">${t.role} · ${t.mass}</span>
+    `;
+    div.addEventListener('click',()=>{
+      t.active=!t.active;
+      renderTools(); computeForces(); updateForceUI();
+      log(`⚛️ TOOL ${t.name} → ${t.active?'aktiv':'inaktiv'}`,'Atom','manga');
+    });
+    list.appendChild(div);
+  });
+  document.getElementById('toolsCount').textContent=
+    toolState.filter(t=>t.active).length+'/'+TOOLS.length;
+}
+
+function updateForceUI(){
+  const list=document.getElementById('forceList');
+  list.innerHTML='';
+  const sorted=Object.entries(forceState.pairForces).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  const max=Math.max(0.001, sorted[0]?.[1]||1);
+  sorted.forEach(([k,v])=>{
+    const row=document.createElement('div');
+    row.className='force-row';
+    row.style.cssText='display:flex;justify-content:space-between;align-items:center;padding:1.5px 0;font-size:9px;border-bottom:1px solid rgba(255,255,255,0.02)';
+    row.innerHTML=`
+      <span style="color:#8aa8a0">${k}</span>
+      <span style="color:#b388ff;font-weight:bold">${v.toFixed(3)}</span>
+      <div style="height:3px;width:50px;background:rgba(20,20,30,0.7);border-radius:2px;overflow:hidden">
+        <div style="height:100%;width:${(v/max)*100}%;background:linear-gradient(90deg,#6cf,#b388ff)"></div>
+      </div>
+    `;
+    list.appendChild(row);
+  });
+  const cl=document.getElementById('clusterList');
+  cl.innerHTML='';
+  if(forceState.clusters.length===0){
+    cl.innerHTML='<span style="color:#5a7a8a">— keine Cluster —</span>';
+  } else {
+    forceState.clusters.forEach((grp,i)=>{
+      const chip=document.createElement('span');
+      chip.className='chapter-chip';
+      chip.textContent=grp.join('·');
+      cl.appendChild(chip);
+    });
+  }
+  document.getElementById('clusterBadge').textContent=forceState.clusters.length;
+}
+
+function updateAll(){
+  document.getElementById('klickCount').textContent=klickCounter;
+  document.getElementById('zackCount').textContent=zackCounter;
+  document.getElementById('ftKlick').textContent=klickCounter;
+  document.getElementById('ftKoma').textContent=mangaState.komas.filter(k=>k.done).length;
+  document.getElementById('ftPages').textContent=mangaState.pagesDone;
+  document.getElementById('ftChap').textContent=mangaState.chapter;
+  document.getElementById('pagesDone').textContent=mangaState.pagesDone;
+  document.getElementById('pagesBadge').textContent=mangaState.pagesDone+' vollendet';
+  document.getElementById('chapNum').textContent=mangaState.chapter;
+  document.getElementById('earnScore').textContent=localMaster.score||0;
+  document.getElementById('serumState').textContent=
+    mangaState.komas.some(k=>k.serumStopped&&!k.done)?'🩸 stop':'inaktiv';
+  document.getElementById('zamState').textContent=localMaster.zam;
+  document.getElementById('klickState').textContent=localMaster.me2.allow?'bereit':'blockiert';
+  document.getElementById('ledMaster').className='led '+(isMasterConnected?'master':'');
+  updateDjinnUI();
+  syncMe2Buttons();
+}
+
+// ─── 2me ────────────────────────────────────────────────────
+function syncMe2Buttons(){
+  document.getElementById('btnAllow').classList.toggle('active',localMaster.me2.allow);
+  document.getElementById('btnBoost').classList.toggle('active',localMaster.me2.boost);
+  document.getElementById('btnSlow').classList.toggle('active',localMaster.me2.slow);
+  document.getElementById('btnOverride').classList.toggle('active',localMaster.me2.override);
+  document.getElementById('zollState').textContent=localMaster.me2.allow?'offen':'blockiert';
+}
+
+// ─── DJINN (Manga-Events) ───────────────────────────────────
+const djinnState={on:true, rate:3000, ordnung:0, last:'–'};
+
+const DJINN_EVENTS=[
+  {tag:'Neue Figur',   fn:()=>{log('👤 Neue Figur erscheint im Koma '+mangaState.komas[mangaState.activeIdx].name,'DJINN','djinn');}, weight:12},
+  {tag:'Sprechblase',  fn:()=>{log('💬 Sprechblase hinzugefügt','DJINN','djinn');}, weight:10},
+  {tag:'Action-Linien',fn:()=>{const a=mangaState.komas[mangaState.activeIdx];a.klick=Math.min(97,a.klick+3);a.ink=a.klick/100;log('💥 Action-Linien im Koma','DJINN','djinn');}, weight:10},
+  {tag:'Flashback',    fn:()=>{log('⏪ Flashback-Einschub','DJINN','djinn');}, weight:6},
+  {tag:'Zeitsprung',   fn:()=>{log('⏩ Zeitsprung · Panel neu getaktet','DJINN','djinn');}, weight:5},
+  {tag:'Tone-Shift',   fn:()=>{log('🎨 Tone-Shift · Farbstimmung wechselt','DJINN','djinn');}, weight:8},
+  {tag:'KlicK',        fn:()=>{addKlick(1,true);}, weight:16},
+  {tag:'Zelle',        fn:()=>{befreieZelle(1);}, weight:6},
+  {tag:'Pattern',      fn:()=>{const p=Array.from({length:9},()=>Math.floor(Math.random()*9)).join('-');log('✨ ZAHRAND: '+p,'ZAHRAND','djinn');}, weight:6},
+  {tag:'Sync',         fn:()=>{log('🔁 run.sli sync → '+(47+Math.floor(Math.random()*20)),'Sync','djinn');}, weight:5},
+  {tag:'EARN',         fn:()=>{const n=10+Math.floor(Math.random()*40);addScore(n);log(`💰 +${n} SCORE`,'EARN','djinn');}, weight:10},
+  {tag:'Cluster',      fn:()=>{forceState.clusterThresh=Math.max(0.15,forceState.clusterThresh-0.02);computeForces();updateForceUI();log(`🧩 Cluster-Schwelle → ${forceState.clusterThresh.toFixed(2)}`,'Cluster','manga');}, weight:6},
+  {tag:'Magnify',      fn:()=>{forceState.magnify=Math.min(3.0,Math.max(0.2,forceState.magnify+(Math.random()*0.2-0.1)));document.getElementById('magSlider').value=forceState.magnify;}, weight:6},
+];
+
+let djinnTimer=null;
+function startDjinn(){
+  if(djinnTimer) clearInterval(djinnTimer);
+  djinnTimer=setInterval(()=>{
+    if(!djinnState.on) return;
+    const total=DJINN_EVENTS.reduce((a,e)=>a+e.weight,0);
+    let r=Math.random()*total, pick=DJINN_EVENTS[0];
+    for(const e of DJINN_EVENTS){ r-=e.weight; if(r<=0){pick=e;break;} }
+    try{pick.fn();}catch(_){}
+    djinnState.last=pick.tag;
+    document.getElementById('djinnLast').textContent=pick.tag;
+    djinnState.ordnung=Math.min(100,djinnState.ordnung+0.6);
+    updateDjinnUI();
+  }, djinnState.rate);
+}
+function updateDjinnUI(){
+  document.getElementById('djinnState').textContent=djinnState.on?'on':'off';
+  document.getElementById('djinnOrdnung').textContent=Math.round(djinnState.ordnung)+'%';
+  document.getElementById('djinnOrdnungBar').style.width=djinnState.ordnung+'%';
+}
+
+// ─── ZAM ────────────────────────────────────────────────────
+function runZamSequence(steps){
+  log(`ZaM-Sequenz: ${steps.join(' → ')}`,'ZaM','ok');
+  localMaster.zam='run'; localMaster.zamCount=(localMaster.zamCount||0)+1;
+  updateAll();
+  let i=0;
+  const next=()=>{
+    if(localMaster.zam!=='run'){log('⏸ ZaM abgebrochen','ZaM','warn');return;}
+    if(i>=steps.length){
+      localMaster.zam='done'; updateAll();
+      log(`✅ ZaM fertig (${steps.length} Schritte)`,'ZaM','ok');
+      // Belohnung: 1 Klick in alle aktiven Komas
+      addKlick(5,true);
       return;
     }
-    const step = steps[i++];
-    log(`  ↳ ${step}`, 'ZaM');
-    stepOrbit();
-    addKlick(1);
-    if (String(step).toUpperCase().includes('MAINBOARD')) {
-      sendToMaster('mainboard:run', { source: 'ZaM' });
+    const step=steps[i++];
+    log(`  ↳ ${step}`,'ZaM');
+    addKlick(1,true);
+    if(String(step).toUpperCase().includes('MAINBOARD')){
+      addScore(80);
+      log('MAINBOARD · +80 SCORE','MAINBOARD','ok');
     }
-    setTimeout(next, 320);
+    setTimeout(next,320);
   };
   next();
 }
 
-// ─── 7. 2me-BUTTONS ─────────────────────────────────────────────
-function syncMe2Buttons() {
-  document.getElementById('btnAllow').classList.toggle('active', localMaster.me2.allow);
-  document.getElementById('btnBoost').classList.toggle('active', localMaster.me2.boost);
-  document.getElementById('btnSlow').classList.toggle('active', localMaster.me2.slow);
-  document.getElementById('btnOverride').classList.toggle('active', localMaster.me2.override);
+// ─── PIPELINE ───────────────────────────────────────────────
+const pipeState={current:'—'};
+document.getElementById('pipeP0').addEventListener('click',()=>setPipe('P0 · RAW → WACH'));
+document.getElementById('pipeP1').addEventListener('click',()=>setPipe('P1 · STRUCTURE → GEORDNET'));
+document.getElementById('pipeP2').addEventListener('click',()=>setPipe('P2 · VECTOR → RICHTUNG'));
+document.getElementById('pipeP4').addEventListener('click',()=>setPipe('P4 · FUSION → STABIL'));
+document.getElementById('pipePe').addEventListener('click',()=>setPipe('Pe · BOOST → READY'));
+function setPipe(v){pipeState.current=v;document.getElementById('pipeState').textContent=v;log('Pipeline: '+v,'Pipeline','ok');}
 
-  const roles = [];
-  if (localMaster.me2.allow) roles.push('ALLOW');
-  if (localMaster.me2.boost) roles.push('BOOST');
-  if (localMaster.me2.slow) roles.push('SLOW');
-  if (localMaster.me2.override) roles.push('OVERRIDE');
-  document.getElementById('me2Role').textContent = roles.join('·') || 'IDLE';
-  document.getElementById('zollState').textContent = localMaster.me2.allow ? 'offen' : 'blockiert';
-  document.getElementById('zollStatus').textContent = localMaster.me2.allow ? 'offen' : 'blockiert';
-  document.getElementById('zollStatus').className = 'val ' + (localMaster.me2.allow ? 'green' : 'red');
-}
+// ─── STATION ────────────────────────────────────────────────
+document.getElementById('bstPE').addEventListener('click',(e)=>{e.currentTarget.classList.toggle('active');forceState.magnify=Math.min(3.0,forceState.magnify+0.08);document.getElementById('magSlider').value=forceState.magnify;log('🔷 STATION PE → BOOST','Station','ok');});
+document.getElementById('bstNE').addEventListener('click',(e)=>{e.currentTarget.classList.toggle('active');forceState.clusterThresh=Math.max(0.1,forceState.clusterThresh-0.03);computeForces();updateForceUI();log('🔷 STATION NE → BOOST','Station','ok');});
+document.getElementById('bstWARB').addEventListener('click',(e)=>{e.currentTarget.classList.toggle('active');flowState.speed=Math.min(0.02,flowState.speed*1.15);log('🔷 STATION WARB → BOOST','Station','ok');});
 
-document.getElementById('btnAllow').addEventListener('click', () => {
-  localMaster.me2.allow = !localMaster.me2.allow;
-  sendToMaster('me2:rule', { allow: localMaster.me2.allow });
-  syncMe2Buttons();
-  log(`Zoll → ${localMaster.me2.allow ? 'offen' : 'blockiert'}`, '2me', 'warn');
-});
-document.getElementById('btnBoost').addEventListener('click', () => {
-  localMaster.me2.boost = !localMaster.me2.boost;
-  if (localMaster.me2.boost) localMaster.me2.slow = false;
-  sendToMaster('me2:rule', { boost: localMaster.me2.boost, slow: localMaster.me2.slow });
-  syncMe2Buttons();
-});
-document.getElementById('btnSlow').addEventListener('click', () => {
-  localMaster.me2.slow = !localMaster.me2.slow;
-  if (localMaster.me2.slow) localMaster.me2.boost = false;
-  sendToMaster('me2:rule', { boost: localMaster.me2.boost, slow: localMaster.me2.slow });
-  syncMe2Buttons();
-});
-document.getElementById('btnOverride').addEventListener('click', () => {
-  localMaster.me2.override = !localMaster.me2.override;
-  sendToMaster('me2:rule', { override: localMaster.me2.override });
-  syncMe2Buttons();
-});
-
-// ─── 8. HDF-ROM (alle Dateien aus deinem Repo) ──────────────────
-const HDF_ROM = {
-  d:{ file:'d.hdf.rom', ready:'d.ready', label:'D-Basis' },
-  e:{ file:'e.hdf.rom', ready:'e.ready', label:'E-Basis' },
-  i:{ file:'i.hdf.rom', ready:'i.ready', label:'I-Basis' },
-  n:{ file:'n.hdf.rom', ready:'n.ready', label:'N-Basis' },
-  o:{ file:'o.hdf.rom', ready:'o.ready', label:'O-Basis' },
-  r:{ file:'r.hdf.rom', ready:'r.ready', label:'R-Basis' },
-  s:{ file:'s.hdf.rom', ready:'s.ready', label:'S-Basis' },
-  u:{ file:'u.hdf.rom', ready:'u.ready', label:'U-Basis' },
-  w:{ file:'w.hdf.rom', ready:'w.ready', label:'W-Basis' },
-  'axiom':{ file:'axiom.hdf.rom', label:'Axiom' },
-  'axiom.3':{ file:'axiom.3.hdf.rom', label:'Axiom-3' },
-  'freeaxiom':{ file:'freeaxiom.hdf.rom', label:'FreeAxiom' },
-  'freeaxiom.9':{ file:'freeaxiom.9.hdf.rom', label:'FreeAxiom-9' },
-  '81':{ file:'81.hdf.rom', label:'81-Basis' },
-  '729':{ file:'729.js', label:'729-Run' },
-  '3.hit.90':{ file:'3.hit.90.hdf.rom', label:'3-Hit-90' },
-  'asymilation':{ file:'asymilation.hdf.rom', ready:'asymilation.ready', label:'Asymilation' },
-  'desamalasion':{ file:'desamalasion.hdf.rom', label:'Desamalasion' },
-  'zauber.6':{ file:'zauber.6.user.use', label:'Zauber-6' },
-  'bewegung':{ file:'bewegung.ready', label:'Bewegung' },
-  'muss':{ file:'muss.ready', label:'Muss-Ready' },
-};
-
-function resolveHdf(input) {
-  const key = input.trim().toLowerCase().replace('#','');
-  const rom = HDF_ROM[key];
-  if (rom) {
-    return `✅ ${key} · ${rom.file}${rom.ready ? ' · ready:'+rom.ready : ''} · ${rom.label}`;
-  }
-  return `❌ "${key}" nicht im HDF-ROM-Register`;
-}
-
-document.getElementById('hdfBtn').addEventListener('click', () => {
-  const val = document.getElementById('hdfInput').value;
-  const out = resolveHdf(val);
-  document.getElementById('hdfOut').textContent = out;
-  log(out, 'HDF', out.startsWith('✅') ? 'ok' : 'err');
-});
-document.getElementById('hdfInput').addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') document.getElementById('hdfBtn').click();
-});
-
-// ─── 9. ZAM- UND KLICK-BUTTONS ───────────────────────────────────
-document.getElementById('btnZamRun').addEventListener('click', () => {
-  const seq = ['LOAD', 'ARBEIT_RUN', 'MAINBOARD', 'DONE'];
-  sendToMaster('zam:run', { sequence: seq, steps: seq });
-  runZamSequence(seq);
-});
-document.getElementById('btnZamStop').addEventListener('click', () => {
-  localMaster.zam = 'idle';
-  updateAll();
-  log('⏸ ZaM gestoppt', 'ZaM', 'warn');
-});
-document.getElementById('btnKlick').addEventListener('click', () => addKlick(1));
-document.getElementById('btnZackReset').addEventListener('click', resetKlick);
-
-// Modus-Buttons
-document.querySelectorAll('#left .me2-buttons button').forEach(b => {
-  b.addEventListener('click', () => {
-    const mode = b.dataset.mode;
-    if (!mode) return;
-    document.querySelectorAll('#left .me2-buttons button').forEach(x => x.classList.remove('active'));
+// ─── MODUS ──────────────────────────────────────────────────
+document.querySelectorAll('.m-buttons button[data-mode]').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.m-buttons button[data-mode]').forEach(x=>x.classList.remove('active'));
     b.classList.add('active');
-    orbitState.mode = mode;
-    document.getElementById('ovMode').textContent = mode;
-    sendToMaster('arbeit:mode', { mode });
-    log(`Modus: ${mode}`, 'arbeit', 'ok');
+    log(`Modus: ${b.dataset.mode}`,'Manga','ok');
   });
 });
 
-// ─── 10. UPDATE-UI ──────────────────────────────────────────────
-function updateArbeitProgress() {
-  const active = moduleState.filter(m => m.active).length;
-  const progress = active / MODULES.length;
-  document.getElementById('mpActive').textContent = `${active}/${MODULES.length}`;
-  document.getElementById('mpProg').textContent = (progress * 100).toFixed(0) + '%';
-  document.getElementById('mpBar').style.width = (progress * 100) + '%';
-  document.getElementById('ovArbeit').textContent = (progress * 100).toFixed(0) + '%';
-
-  // Respo-Score (0–1)
-  const respo = progress * 0.7 + (localMaster.zack / 10) * 0.3;
-  const respoClamped = Math.min(1, respo);
-  document.getElementById('mpRespo').textContent = respoClamped.toFixed(2);
-  document.getElementById('hdrRespo').textContent = (respoClamped * 100).toFixed(0) + '%';
-  return respoClamped;
-}
-
-function updateAll() {
-  // Header
-  document.getElementById('hdrKlick').textContent = klickCounter;
-  document.getElementById('hdrZack').textContent = zackCounter;
-  document.getElementById('klickCount').textContent = klickCounter;
-  document.getElementById('zackCount').textContent = zackCounter;
-  document.getElementById('klickRemain').textContent = 100 - klickCounter;
-  document.getElementById('ftKlick').textContent = klickCounter;
-  document.getElementById('ftZack').textContent = zackCounter;
-  document.getElementById('zamState').textContent = localMaster.zam;
-  document.getElementById('zamLast').textContent = localMaster.zam === 'idle' ? '–' : 'run#' + (localMaster.zamCount || 1);
-  document.getElementById('klickState').textContent = localMaster.me2.allow ? 'bereit' : 'blockiert';
-  document.getElementById('ledMaster').className = 'led ' + (isMasterConnected ? 'master' : '');
-  updateArbeitProgress();
-  syncMe2Buttons();
-}
-
-// ─── 11. LOG ────────────────────────────────────────────────────
-function log(msg, tag = 'arbeit', type = '') {
-  const box = document.getElementById('logBox');
-  const entry = document.createElement('div');
-  entry.className = 'entry';
-  const t = new Date().toLocaleTimeString('de-DE');
-  entry.innerHTML = `<span class="time">[${t}]</span><span class="tag">${tag}</span><span class="${type}">${msg}</span>`;
-  box.appendChild(entry);
-  box.scrollTop = box.scrollHeight;
-  while (box.children.length > 60) box.removeChild(box.firstChild);
-}
-
-// ─── 12. TASTATUR ───────────────────────────────────────────────
-document.addEventListener('keydown', (e) => {
-  if (e.target.tagName === 'INPUT') return;
-  if (e.key === ' ') { e.preventDefault(); addKlick(1); }
-  if (e.key === 'r' || e.key === 'R') {
-    if (e.shiftKey) { resetKlick(); }
-    else { orbitState.index = 0; orbitState.history = []; log('⟲ Orbit Reset', 'arbeit', 'warn'); }
-  }
-  if (e.key === 'z' || e.key === 'Z') document.getElementById('btnZamRun').click();
-  if (e.key === 'p' || e.key === 'P') orbitState.running = !orbitState.running;
-  if (e.key === '1') document.querySelector('[data-mode="IQQ"]')?.click();
-  if (e.key === '2') document.querySelector('[data-mode="OCTA"]')?.click();
-  if (e.key === '3') document.querySelector('[data-mode="A81"]')?.click();
+// ─── MOBILE TABS ────────────────────────────────────────────
+document.querySelectorAll('#mobTabs button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('#mobTabs button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    document.getElementById('main').dataset.tab=b.dataset.tab;
+    setTimeout(resizeCanvas,50);
+  });
 });
 
-// ─── 13. UHR ────────────────────────────────────────────────────
-function updateClock() {
-  document.getElementById('hdrClock').textContent = '⏱️ ' + new Date().toLocaleTimeString('de-DE');
+// ─── MAGNIFY ────────────────────────────────────────────────
+document.getElementById('magSlider').addEventListener('input',(e)=>{
+  forceState.magnify=parseFloat(e.target.value);
+  computeForces(); updateForceUI();
+});
+
+// ─── DJINN BUTTONS ──────────────────────────────────────────
+document.getElementById('btnDjinn').addEventListener('click',(e)=>{
+  djinnState.on=!djinnState.on;
+  e.currentTarget.classList.toggle('active',djinnState.on);
+  e.currentTarget.textContent=djinnState.on?'🧞 ON':'🧞 OFF';
+  log(`🧞 DJINN ${djinnState.on?'aktiv':'aus'}`,'DJINN','djinn');
+  updateDjinnUI();
+});
+document.getElementById('btnDjinnFast').addEventListener('click',()=>{djinnState.rate=Math.max(400,djinnState.rate/2);startDjinn();log('🧞 DJINN ⚡×2 · rate='+djinnState.rate+'ms','DJINN','djinn');});
+document.getElementById('btnDjinnSlow').addEventListener('click',()=>{djinnState.rate=Math.min(20000,djinnState.rate*2);startDjinn();log('🧞 DJINN 🐢 · rate='+djinnState.rate+'ms','DJINN','djinn');});
+document.getElementById('btnOrdnung').addEventListener('click',()=>{
+  log('📐 ORDNUNGSVERFAHREN gestartet','Ordnung','manga');
+  const steps=['P0','P1','P2','P4','Pe'];
+  steps.forEach((s,i)=>setTimeout(()=>{
+    setPipe(s+' · läuft');
+    log(`  ↳ Pipeline ${s}`,'Ordnung','manga');
+    if(s==='Pe'){
+      setPipe('Pe · READY');
+      djinnState.ordnung=Math.min(100,djinnState.ordnung+15);
+      updateDjinnUI();
+      forceState.clusterThresh=Math.max(0.1,forceState.clusterThresh-0.02);
+      computeForces(); updateForceUI();
+      log('📐 ORDNUNG stabilisiert','Ordnung','manga');
+    }
+  },i*220));
+});
+
+// ─── BUTTONS ────────────────────────────────────────────────
+document.getElementById('btnZamRun').addEventListener('click',()=>runZamSequence(['LOAD','ARBEIT_RUN','MAINBOARD','DONE']));
+document.getElementById('btnZamStop').addEventListener('click',()=>{localMaster.zam='idle';updateAll();log('⏸ ZaM gestoppt','ZaM','warn');});
+document.getElementById('btnKlick').addEventListener('click',()=>addKlick(1));
+document.getElementById('btnZackReset').addEventListener('click',resetKlick);
+document.getElementById('btnAllow').addEventListener('click',()=>{localMaster.me2.allow=!localMaster.me2.allow;syncMe2Buttons();log(`Zoll → ${localMaster.me2.allow?'offen':'blockiert'}`,'2me','warn');});
+document.getElementById('btnBoost').addEventListener('click',()=>{localMaster.me2.boost=!localMaster.me2.boost;if(localMaster.me2.boost)localMaster.me2.slow=false;syncMe2Buttons();});
+document.getElementById('btnSlow').addEventListener('click',()=>{localMaster.me2.slow=!localMaster.me2.slow;if(localMaster.me2.slow)localMaster.me2.boost=false;syncMe2Buttons();});
+document.getElementById('btnOverride').addEventListener('click',()=>{localMaster.me2.override=!localMaster.me2.override;syncMe2Buttons();});
+
+let soundOn=false;
+document.getElementById('btnSound').addEventListener('click',(e)=>{soundOn=!soundOn;e.currentTarget.classList.toggle('active',soundOn);e.currentTarget.textContent=(soundOn?'🔊':'🔇')+' TON';if(soundOn)beep(880,0.06);});
+document.getElementById('btnAuto').addEventListener('click',(e)=>{e.currentTarget.classList.toggle('active');});
+
+// ─── LOG FILTER ─────────────────────────────────────────────
+document.querySelectorAll('#logBar button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('#logBar button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    const box=document.getElementById('logBox');
+    box.className=b.dataset.f==='all'?'':'filter-'+b.dataset.f;
+  });
+});
+
+// ─── HDF ───────────────────────────────────────────────────
+const HDF_ROM={
+  d:{file:'d.hdf.rom',label:'D-Basis'}, e:{file:'e.hdf.rom',label:'E-Basis'},
+  i:{file:'i.hdf.rom',label:'I-Basis'}, n:{file:'n.hdf.rom',label:'N-Basis'},
+  o:{file:'o.hdf.rom',label:'O-Basis'}, r:{file:'r.hdf.rom',label:'R-Basis'},
+  s:{file:'s.hdf.rom',label:'S-Basis'}, u:{file:'u.hdf.rom',label:'U-Basis'},
+  w:{file:'w.hdf.rom',label:'W-Basis'},
+  'axiom':{file:'axiom.hdf.rom',label:'Axiom'},
+  '81':{file:'81.hdf.rom',label:'81-Basis'},
+  'zauber.6':{file:'zauber.6.user.use',label:'Zauber-6'},
+  'muss':{file:'muss.ready',label:'Muss-Ready'},
+  'any.manga':{file:'any.manga.ready',label:'Manga-Ready'},
+  'koma':{file:'any.manga.ready',label:'Koma-Ready'},
+  'manga':{file:'any.manga.ready',label:'MANGA-Engine'},
+  'show':{file:'show.ready',label:'Show-Ready'},
+};
+function resolveHdf(input){
+  const k=String(input||'').trim().toLowerCase().replace('#','');
+  const rom=HDF_ROM[k];
+  return rom ? `✅ ${k} · ${rom.file} · ${rom.label}` : `❌ "${k}" nicht im HDF-ROM-Register`;
 }
-setInterval(updateClock, 1000);
-updateClock();
+document.getElementById('hdfBtn').addEventListener('click',()=>{
+  const v=document.getElementById('hdfInput').value;
+  const out=resolveHdf(v);
+  document.getElementById('hdfOut').textContent=out;
+  log(out,'HDF',out.startsWith('✅')?'ok':'err');
+});
+document.getElementById('hdfInput').addEventListener('keydown',(e)=>{if(e.key==='Enter')document.getElementById('hdfBtn').click();});
 
-// ─── 14. ÖFFENTLICHE API ────────────────────────────────────────
-window.ARBEIT = {
-  // Arbeitsstand
-  modules: () => moduleState.map(m => ({ id: m.id, active: m.active })),
-  toggle: toggleModule,
-  progress: () => moduleState.filter(m => m.active).length / MODULES.length,
+// ─── LOG ───────────────────────────────────────────────────
+function log(msg,tag='Manga',type=''){
+  const box=document.getElementById('logBox');
+  const entry=document.createElement('div');
+  entry.className='entry'+(type?' is-'+type:'');
+  const t=new Date().toLocaleTimeString('de-DE');
+  entry.innerHTML=`<span class="time">[${t}]</span><span class="tag">${tag}</span><span class="${type}">${msg}</span>`;
+  box.appendChild(entry);
+  box.scrollTop=box.scrollHeight;
+  while(box.children.length>150) box.removeChild(box.firstChild);
+}
 
-  // KlicK / ZacK
-  klick: (n = 1) => addKlick(n),
+// ─── SOUND ─────────────────────────────────────────────────
+let audioCtx=null;
+function beep(freq,dur){
+  if(!soundOn) return;
+  try{
+    audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
+    const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+    o.type='sine'; o.frequency.value=freq; g.gain.value=0.04;
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(); o.stop(audioCtx.currentTime+dur);
+  }catch(_){}
+}
+
+// ─── CANVAS CLICK → aktives Koma ──────────────────────────
+canvas.addEventListener('click',(e)=>{
+  const r=canvas.getBoundingClientRect();
+  const x=e.clientX-r.left, y=e.clientY-r.top;
+  // Panel finden
+  for(const p of panelRects){
+    if(x>=p.x && x<=p.x+p.w && y>=p.y && y<=p.y+p.h){
+      setActiveKoma(p.idx);
+      spawnInk(x,y,mangaState.komas[p.idx].color);
+      addKlick(1,false,p.idx);
+      return;
+    }
+  }
+  // Sonst in aktives Koma
+  spawnInk(x,y);
+  addKlick(1);
+});
+
+// ─── KEYBOARD ─────────────────────────────────────────────
+document.addEventListener('keydown',(e)=>{
+  if(e.target.tagName==='INPUT') return;
+  if(e.key===' '){e.preventDefault();addKlick(1);spawnInk(canvas.width/2/(window.devicePixelRatio||1),canvas.height/2/(window.devicePixelRatio||1));}
+  if(e.key==='r'||e.key==='R'){
+    if(e.shiftKey) resetKlick();
+    else{log('⟲ Reset','Manga','warn');}
+  }
+  if(e.key==='z'||e.key==='Z') document.getElementById('btnZamRun').click();
+  if(e.key==='d'||e.key==='D') document.getElementById('btnDjinn').click();
+  if(e.key==='o'||e.key==='O') document.getElementById('btnOrdnung').click();
+  if(e.key==='n'||e.key==='N') manualNewPage();
+  if(e.key==='1') document.querySelector('[data-mode="IQQ"]')?.click();
+  if(e.key==='2') document.querySelector('[data-mode="OCTA"]')?.click();
+  if(e.key==='3') document.querySelector('[data-mode="A81"]')?.click();
+});
+
+// ─── CLOCK ─────────────────────────────────────────────────
+function updateClock(){document.getElementById('hdrClock').textContent='⏱️ '+new Date().toLocaleTimeString('de-DE');}
+setInterval(updateClock,1000); updateClock();
+
+// ─── API ───────────────────────────────────────────────────
+window.MANGA={
+  // Page
+  page:()=>mangaState.page,
+  chapter:()=>mangaState.chapter,
+  pagesDone:()=>mangaState.pagesDone,
+  newPage:manualNewPage,
+
+  // Koma
+  komas:()=>mangaState.komas.map(k=>({id:k.id,name:k.name,glyph:k.glyph,klick:k.klick,ink:k.ink,done:k.done,beat:k.beat})),
+  active:()=>mangaState.activeIdx,
+  selectKoma:(i)=>setActiveKoma(i),
+  resetKomas:()=>{mangaState.komas=newKomaSet();mangaState.activeIdx=0;updateAll();},
+
+  // Klick
+  klick:(n=1)=>addKlick(n),
   resetKlick,
-  state: () => ({
-    klick: klickCounter,
-    zack: zackCounter,
-    mode: orbitState.mode,
-    tick: orbitState.tick,
-    index: orbitState.index,
-    modules: moduleState.filter(m => m.active).length,
-  }),
 
-  // ZaM
-  zam: {
-    run: (steps) => runZamSequence(steps || ['LOAD','ARBEIT_RUN','DONE']),
-  },
+  // Zam
+  zam:{run:(steps)=>runZamSequence(steps||['LOAD','ARBEIT_RUN','MAINBOARD','DONE']),stop:()=>{localMaster.zam='idle';updateAll();}},
 
-  // 2me
-  me2: {
-    setRule: (rule) => {
-      Object.assign(localMaster.me2, rule);
-      sendToMaster('me2:rule', rule);
-      syncMe2Buttons();
-    },
-    allow: () => { localMaster.me2.allow = true; syncMe2Buttons(); },
-    block: () => { localMaster.me2.allow = false; syncMe2Buttons(); },
-  },
+  // Tools
+  tools:()=>toolState.map(t=>({id:t.id,active:t.active,mass:t.mass})),
+  toggleTool:(id)=>{const t=toolState.find(x=>x.id===id);if(t)t.active=!t.active;renderTools();computeForces();updateForceUI();},
+  forces:()=>({...forceState}),
+  magnify:(v)=>{forceState.magnify=Math.max(0.2,Math.min(3.0,v));document.getElementById('magSlider').value=forceState.magnify;computeForces();updateForceUI();},
 
-  // Zoll
-  zoll: {
-    check: () => localMaster.me2.allow
-      ? { passed: true, reason: 'OK' }
-      : { passed: false, reason: 'Zoll geschlossen' },
-  },
+  // Story
+  story:()=>mangaState.komas.map(k=>k.beat).filter(Boolean),
+  chapters:()=>mangaState.chapters.slice(),
+
+  // DJINN
+  djinn:{on:()=>{djinnState.on=true;updateDjinnUI();},off:()=>{djinnState.on=false;updateDjinnUI();},ordnung:()=>document.getElementById('btnOrdnung').click()},
+
+  // Kollektiv
+  kollektiv:{befreie:(n=1)=>befreieZelle(n)},
+
+  // Score
+  score:{add:(n)=>addScore(n)},
 
   // HDF
-  hdf: {
-    resolve: resolveHdf,
-    register: HDF_ROM,
-  },
+  hdf:{resolve:resolveHdf,register:HDF_ROM},
 
-  // Master
-  master: {
-    connected: () => isMasterConnected,
-    state: () => ({ ...localMaster }),
-  },
+  // State
+  state:()=>({
+    chapter:mangaState.chapter, page:mangaState.page,
+    pagesDone:mangaState.pagesDone,
+    komas:mangaState.komas.map(k=>({id:k.id,done:k.done,klick:k.klick})),
+    activeIdx:mangaState.activeIdx,
+    koop:forceState.koop, clusters:forceState.clusters.length,
+    score:localMaster.score, kollektiv:localMaster.kollektiv,
+    flow:{dir:flowState.dir, phase:flowState.phase, flips:flowState.flips},
+  }),
 };
 
-// ─── 15. INIT ───────────────────────────────────────────────────
-renderModules();
+// ─── INIT ──────────────────────────────────────────────────
+renderTools();
+renderKomaList();
+renderChapterChips();
 resizeCanvas();
+computeForces();
+updateForceUI();
 updateAll();
-sendToMaster('arbeit:hello', {
-  modules: MODULES.length,
-  activeCount: moduleState.filter(m => m.active).length,
-  ts: Date.now(),
-});
-log('⚙️ ARBEIT · RESPO · INDEX bereit', 'init', 'ok');
-log(`🧩 ${MODULES.length} Module aus brain/ geladen`, 'init');
-log('Kompatibel: KlicK · ZaM · 2me · MAINBOARD · respo-master.js', 'init');
-log('Kanal: iki1uc-orbit · Storage: iki1uc-master-respo', 'init');
-log('Leertaste = KlicK · R = Orbit-Reset · Shift+R = KlicK-Reset · Z = ZaM · 1/2/3 = Modus', 'init', 'warn');
+renderStory();
+startDjinn();
+
+log('📖 MANGA·KOMA bereit · 起承転結','init','ok');
+log(`🀄 4 Koma pro Seite · 4 Seiten pro Kapitel`,'init','manga');
+log('⚛️ Tools: STORY · ART · TONE · INK · PAPER · LETTER','init','manga');
+log('🩸 Serum · KlicK bis 98 · bewusst 99 + 100 → ZaM','init','warn');
+log('🧞 DJINN aktiv · automatische Manga-Events','init','djinn');
+log('Space = KlicK · Z = ZaM · D = DJINN · O = Ordnung · N = neue Seite · 1/2/3 = Modus','init','warn');
 
 requestAnimationFrame(loop);
 
-console.log('%c⚙️ ARBEIT · RESPO · INDEX geladen', 'color:#b388ff;font-weight:bold');
-console.log('→ window.ARBEIT.klick() · .zam.run() · .me2.setRule() · .progress()');
+console.log('%c📖 MANGA · KOMA (reFINAL)','color:#f0d080;font-weight:bold');
+console.log('→ window.MANGA.klick() · .zam.run() · .newPage() · .tools() · .forces() · .story()');
 </script>
 </body>
 </html>
